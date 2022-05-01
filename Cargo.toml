@@ -1,0 +1,52 @@
+[package]
+name = "bevy_common_assets"
+version = "0.1.0"
+authors = ["Niklas Eicker <git@nikl.me>"]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+description = "Bevy plugin adding support for common asset formats such as json and yaml"
+repository = "https://github.com/NiklasEi/bevy_common_assets"
+homepage = "https://github.com/NiklasEi/bevy_common_assets"
+documentation = "https://docs.rs/bevy_common_assets"
+keywords = ["bevy", "gamedev", "asset", "assets"]
+categories = ["game-development"]
+readme = "./README.md"
+
+[features]
+ron = ["serde_ron"]
+toml = ["serde_toml"]
+yaml = ["serde_yaml"]
+json = ["serde_json"]
+
+[dependencies]
+bevy = { version = "0.7", default-features = false }
+serde_toml = { version = "0.5", package = "toml", optional = true }
+serde_ron = { version = "0.7", package = "ron", optional = true }
+serde_yaml = { version = "0.8", optional = true }
+serde_json = { version = "1", optional = true }
+serde = { version = "1" }
+anyhow = { version = "1" }
+
+[dev-dependencies]
+bevy = "0.7"
+serde = { version = "1" }
+
+[[example]]
+name = "ron"
+path = "examples/ron.rs"
+required-features = ["ron"]
+
+[[example]]
+name = "toml"
+path = "examples/toml.rs"
+required-features = ["toml"]
+
+[[example]]
+name = "yaml"
+path = "examples/yaml.rs"
+required-features = ["yaml"]
+
+[[example]]
+name = "json"
+path = "examples/json.rs"
+required-features = ["json"]
