@@ -11,7 +11,11 @@
 //!
 //! fn main() {
 //!     App::new()
+//! # /*
 //!         .add_plugins(DefaultPlugins)
+//! # */
+//! #       .add_plugins(MinimalPlugins)
+//! #       .add_plugin(bevy::asset::AssetPlugin::default())
 //!         .add_plugin(JsonAssetPlugin::<Level>::new(&["level"]))
 //!         .add_startup_system(load_level)
 //! #       .add_system(stop)
