@@ -53,11 +53,3 @@ pub mod toml;
 /// Module containing a Bevy plugin to load assets from yaml files with custom file extensions.
 #[cfg(feature = "yaml")]
 pub mod yaml;
-
-#[cfg(all(
-    not(feature = "json"),
-    not(feature = "ron"),
-    not(feature = "toml"),
-    not(feature = "yaml")
-))]
-compile_error!("You should use at least one feature to support a certain file format.");
