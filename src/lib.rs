@@ -1,8 +1,8 @@
 //! Bevy plugin offering generic asset loaders for common file formats
 //!
 //! This library includes a collection of thin wrapper plugins around serde implementations for
-//! common file formats like json, ron, toml and yaml. Each plugin adds an asset loader for a user
-//! type from asset files with custom fiel endings.
+//! common file formats like json, ron, toml, and yaml. Each plugin adds an asset loader for a user
+//! type. Assets of that type will then be loaded from all files with configurable extensions.
 //!
 //! ```
 //! use bevy::prelude::*;

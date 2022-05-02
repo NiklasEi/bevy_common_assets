@@ -5,16 +5,16 @@
 [![license](https://img.shields.io/crates/l/bevy_common_assets)](https://github.com/NiklasEi/bevy_common_assets/blob/main/LICENSE.md)
 [![crates.io](https://img.shields.io/crates/d/bevy_common_assets.svg)](https://crates.io/crates/bevy_common_assets)
 
-This [Bevy][bevy] plugin includes generic asset loaders for common file formats.
+Collection of [Bevy][bevy] plugins offering generic asset loaders for common file formats.
 
 Supported formats:
 
 | `format`     | `feature` | `example`                       |
 | :--          |  :--      | :--                             |
 | `json`       | `json`    | [`json.rs`](./examples/json.rs) |
-| `ron`        | `ron`     | [`ron.rs`](./examples/json.rs)  |
-| `toml`       | `toml`    | [`toml.rs`](./examples/json.rs) |
-| `yaml`       | `yaml`    | [`yaml.rs`](./examples/json.rs) |
+| `ron`        | `ron`     | [`ron.rs`](./examples/ron.rs)   |
+| `toml`       | `toml`    | [`toml.rs`](./examples/toml.rs) |
+| `yaml`       | `yaml`    | [`yaml.rs`](./examples/yaml.rs) |
 
 ## Usage
 
