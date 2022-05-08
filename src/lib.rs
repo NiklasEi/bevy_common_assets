@@ -1,12 +1,16 @@
 //! Bevy plugin offering generic asset loaders for common file formats
 //!
-//! This library includes a collection of thin wrapper plugins around serde implementations for
-//! common file formats like json, ron, toml, and yaml. Each plugin adds an asset loader for a user
-//! type. Assets of that type will then be loaded from all files with configurable extensions.
+//! This library includes a collection of thin wrapper plugins around serde implementations for the
+//! common file formats json, ron, toml, yaml, and MessagePack. Each plugin adds an asset loader
+//! for a user type. Assets of that type will then be loaded from all files with configurable
+//! extensions.
 //!
+//! The following example requires the `json` feature and loads a custom asset from a json file.
 //! ```
 //! use bevy::prelude::*;
+//! # /*
 //! use bevy_common_assets::json::JsonAssetPlugin;
+//! # */
 //! # use bevy::app::AppExit;
 //!
 //! fn main() {
@@ -16,14 +20,16 @@
 //! # */
 //! #       .add_plugins(MinimalPlugins)
 //! #       .add_plugin(bevy::asset::AssetPlugin::default())
+//! # /*
 //!         .add_plugin(JsonAssetPlugin::<Level>::new(&["level"]))
+//! # */
 //!         .add_startup_system(load_level)
 //! #       .add_system(stop)
 //!         .run()
 //! }
 //!
 //! fn load_level(mut commands: Commands, asset_server: Res<AssetServer>) {
-//!     let handle: Handle<Level> = asset_server.load("trees.json.level");
+//!     let handle: Handle<Level> = asset_server.load("trees.level");
 //!     commands.insert_resource(handle);
 //! }
 //!
@@ -44,6 +50,9 @@
 /// Module containing a Bevy plugin to load assets from json files with custom file extensions.
 #[cfg(feature = "json")]
 pub mod json;
+/// Module containing a Bevy plugin to load assets from MassagePack files with custom file extensions.
+#[cfg(feature = "msgpack")]
+pub mod msgpack;
 /// Module containing a Bevy plugin to load assets from ron files with custom file extensions.
 #[cfg(feature = "ron")]
 pub mod ron;
@@ -53,3 +62,14 @@ pub mod toml;
 /// Module containing a Bevy plugin to load assets from yaml files with custom file extensions.
 #[cfg(feature = "yaml")]
 pub mod yaml;
+
+#[cfg(all(
+    feature = "json",
+    feature = "msgpack",
+    feature = "ron",
+    feature = "toml",
+    feature = "yaml"
+))]
+#[doc = include_str!("../README.md")]
+#[cfg(doctest)]
+pub struct ReadmeDoctests;

@@ -9,12 +9,13 @@ Collection of [Bevy][bevy] plugins offering generic asset loaders for common fil
 
 Supported formats:
 
-| `format`     | `feature` | `example`                       |
-| :--          |  :--      | :--                             |
-| `json`       | `json`    | [`json.rs`](./examples/json.rs) |
-| `ron`        | `ron`     | [`ron.rs`](./examples/ron.rs)   |
-| `toml`       | `toml`    | [`toml.rs`](./examples/toml.rs) |
-| `yaml`       | `yaml`    | [`yaml.rs`](./examples/yaml.rs) |
+| `format`  | `feature` | `example`                             |
+|:----------|:----------|:--------------------------------------|
+| `json`    | `json`    | [`json.rs`](./examples/json.rs)       |
+| `msgpack` | `msgpack` | [`msgpack.rs`](./examples/msgpack.rs) |
+| `ron`     | `ron`     | [`ron.rs`](./examples/ron.rs)         |
+| `toml`    | `toml`    | [`toml.rs`](./examples/toml.rs)       |
+| `yaml`    | `yaml`    | [`yaml.rs`](./examples/yaml.rs)       |
 
 ## Usage
 
@@ -22,6 +23,8 @@ Enable the feature(s) for the format(s) that you want to use.
 
 Define the types that you would like to load from files and derive `serde::Deserialize` and `bevy::reflect::TypeUuid` for them. The latter requires a unique uuid as an attribute:
 ```rust
+use bevy::reflect::TypeUuid;
+
 #[derive(serde::Deserialize, bevy::reflect::TypeUuid)]
 #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"] // <-- keep me unique
 struct Level {
@@ -30,21 +33,31 @@ struct Level {
 ```
 
 With your types ready, you can add asset plugins for each type. Every plugin gets the asset type as a generic parameter. You also need to configure custom file endings for each type:
-```rust
+```rust no_run
 use bevy_common_assets::json::JsonAssetPlugin;
+use bevy_common_assets::msgpack::MsgPackAssetPlugin;
 use bevy_common_assets::ron::RonAssetPlugin;
 use bevy_common_assets::toml::TomlAssetPlugin;
 use bevy_common_assets::yaml::YamlAssetPlugin;
+use bevy::prelude::*;
+use bevy::reflect::TypeUuid;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(JsonAssetPlugin::<Level>::new(&["json.level", "custom.level"]))
+        .add_plugin(JsonAssetPlugin::<Level>::new(&["json.level", "custom"]))
+        .add_plugin(MsgPackAssetPlugin::<Level>::new(&["msgpack.level"]))
         .add_plugin(RonAssetPlugin::<Level>::new(&["ron.level"]))
         .add_plugin(TomlAssetPlugin::<Level>::new(&["toml.level"]))
         .add_plugin(YamlAssetPlugin::<Level>::new(&["yaml.level"]))
         // ...
-        .run()
+        .run();
+}
+
+#[derive(serde::Deserialize, TypeUuid)]
+#[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
+struct Level {
+    positions: Vec<[f32; 3]>,
 }
 ```
 
@@ -55,10 +68,11 @@ See the [examples](./examples) for working Bevy apps using the different formats
 The main branch is compatible with the latest Bevy release.
 
 Compatibility of `bevy_common_assets` versions:
-| `bevy_common_assets` | `bevy` |
-| :--                  |  :--   |
-| `0.1`                | `0.7`  |
-| `main`               | `0.7`  |
+
+|`bevy_common_assets`| `bevy` |
+|:-------------------|:-------|
+| `0.1`              | `0.7`  |
+| `main`             | `0.7`  |
 
 ## Prior art
 
