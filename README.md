@@ -34,13 +34,12 @@ struct Level {
 
 With your types ready, you can add asset plugins for each type. Every plugin gets the asset type as a generic parameter. You also need to configure custom file endings for each type:
 ```rust no_run
+use bevy::prelude::*;
 use bevy_common_assets::json::JsonAssetPlugin;
 use bevy_common_assets::msgpack::MsgPackAssetPlugin;
 use bevy_common_assets::ron::RonAssetPlugin;
 use bevy_common_assets::toml::TomlAssetPlugin;
 use bevy_common_assets::yaml::YamlAssetPlugin;
-use bevy::prelude::*;
-use bevy::reflect::TypeUuid;
 
 fn main() {
     App::new()
@@ -54,7 +53,7 @@ fn main() {
         .run();
 }
 
-#[derive(serde::Deserialize, TypeUuid)]
+#[derive(serde::Deserialize, bevy::reflect::TypeUuid)]
 #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
 struct Level {
     positions: Vec<[f32; 3]>,
