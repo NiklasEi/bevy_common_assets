@@ -33,6 +33,10 @@ anyhow = { version = "1" }
 bevy = "0.7"
 serde = { version = "1" }
 
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
+
 [[example]]
 name = "msgpack"
 path = "examples/msgpack.rs"
