@@ -69,10 +69,10 @@ The main branch is compatible with the latest Bevy release.
 
 Compatibility of `bevy_common_assets` versions:
 
-|`bevy_common_assets`| `bevy` |
-|:-------------------|:-------|
-| `0.1`              | `0.7`  |
-| `main`             | `0.7`  |
+| `bevy_common_assets` | `bevy` |
+|:---------------------|:-------|
+| `0.1` - `0.2`        | `0.7`  |
+| `main`               | `0.7`  |
 
 ## Prior art
 
