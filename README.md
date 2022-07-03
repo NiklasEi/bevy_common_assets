@@ -2,7 +2,7 @@
 
 [![crates.io](https://img.shields.io/crates/v/bevy_common_assets.svg)](https://crates.io/crates/bevy_common_assets)
 [![docs](https://docs.rs/bevy_common_assets/badge.svg)](https://docs.rs/bevy_common_assets)
-[![license](https://img.shields.io/crates/l/bevy_common_assets)](https://github.com/NiklasEi/bevy_common_assets/blob/main/LICENSE.md)
+[![license](https://img.shields.io/crates/l/bevy_common_assets)](https://github.com/NiklasEi/bevy_common_assets#license)
 [![crates.io](https://img.shields.io/crates/d/bevy_common_assets.svg)](https://crates.io/crates/bevy_common_assets)
 
 Collection of [Bevy][bevy] plugins offering generic asset loaders for common file formats.
@@ -79,7 +79,7 @@ If you only need to load `ron` files, [`bevy_asset_ron`][bevy_asset_ron] offers 
 
 ## License
 
-Licensed under either of
+Dual-licensed under either of
 
 * Apache License, Version 2.0, ([LICENSE-APACHE](/LICENSE-APACHE) or https://www.apache.org/licenses/LICENSE-2.0)
 * MIT license ([LICENSE-MIT](/LICENSE-MIT) or https://opensource.org/licenses/MIT)
