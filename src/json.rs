@@ -3,7 +3,7 @@ use bevy::asset::{AddAsset, Asset, AssetLoader, BoxedFuture, LoadContext, Loaded
 use serde_json::from_slice;
 use std::marker::PhantomData;
 
-/// Plugin to load your asset type from json files.
+/// Plugin to load your asset type `A` from json files.
 pub struct JsonAssetPlugin<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,

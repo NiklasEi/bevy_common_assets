@@ -3,7 +3,7 @@ use bevy::asset::{AddAsset, Asset, AssetLoader, BoxedFuture, LoadContext, Loaded
 use serde_ron::de::from_bytes;
 use std::marker::PhantomData;
 
-/// Plugin to load your asset type from ron files.
+/// Plugin to load your asset type `A` from ron files.
 pub struct RonAssetPlugin<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,

@@ -61,3 +61,8 @@ required-features = ["yaml"]
 name = "json"
 path = "examples/json.rs"
 required-features = ["json"]
+
+[[example]]
+name = "multiple_formats"
+path = "examples/multiple_formats.rs"
+required-features = ["ron", "json"]

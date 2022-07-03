@@ -3,7 +3,7 @@ use bevy::asset::{AddAsset, Asset, AssetLoader, BoxedFuture, LoadContext, Loaded
 use serde_yaml::from_slice;
 use std::marker::PhantomData;
 
-/// Plugin to load your asset type from yaml files.
+/// Plugin to load your asset type `A` from yaml files.
 pub struct YamlAssetPlugin<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
