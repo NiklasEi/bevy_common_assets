@@ -20,7 +20,7 @@ json = ["serde_json"]
 msgpack = ["rmp-serde"]
 
 [dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", rev = "518408dfdaa8884ba86a71512de2a7d57848413d", default-features = false }
+bevy = { git = "https://github.com/bevyengine/bevy", rev = "e0a8087408c9177927e00a538c8581ada74e1831" , default-features = false }
 serde_toml = { version = "0.5", package = "toml", optional = true }
 serde_ron = { version = "0.7", package = "ron", optional = true }
 serde_yaml = { version = "0.8", optional = true }
@@ -30,7 +30,7 @@ serde = { version = "1" }
 anyhow = { version = "1" }
 
 [dev-dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", rev = "518408dfdaa8884ba86a71512de2a7d57848413d" }
+bevy = { git = "https://github.com/bevyengine/bevy", rev = "e0a8087408c9177927e00a538c8581ada74e1831" }
 serde = { version = "1" }
 
 [package.metadata.docs.rs]
