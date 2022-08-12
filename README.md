@@ -23,8 +23,6 @@ Enable the feature(s) for the format(s) that you want to use.
 
 Define the types that you would like to load from files and derive `serde::Deserialize` and `bevy::reflect::TypeUuid` for them. The latter requires a unique uuid as an attribute:
 ```rust
-use bevy::reflect::TypeUuid;
-
 #[derive(serde::Deserialize, bevy::reflect::TypeUuid)]
 #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"] // <-- keep me unique
 struct Level {
@@ -32,7 +30,8 @@ struct Level {
 }
 ```
 
-With your types ready, you can add asset plugins for each type. Every plugin gets the asset type as a generic parameter. You also need to configure custom file endings for each type:
+With the types ready, you can start adding asset plugins. Every plugin gets the asset type that it is supposed to load
+as a generic parameter. You also need to configure custom file endings for each plugin:
 ```rust no_run
 use bevy::prelude::*;
 use bevy_common_assets::json::JsonAssetPlugin;
@@ -45,8 +44,8 @@ fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
         .add_plugin(JsonAssetPlugin::<Level>::new(&["json.level", "custom"]))
-        .add_plugin(MsgPackAssetPlugin::<Level>::new(&["msgpack.level"]))
         .add_plugin(RonAssetPlugin::<Level>::new(&["ron.level"]))
+        .add_plugin(MsgPackAssetPlugin::<Level>::new(&["msgpack.level"]))
         .add_plugin(TomlAssetPlugin::<Level>::new(&["toml.level"]))
         .add_plugin(YamlAssetPlugin::<Level>::new(&["yaml.level"]))
         // ...
@@ -59,6 +58,9 @@ struct Level {
     positions: Vec<[f32; 3]>,
 }
 ```
+
+The example above will load `Level` structs from json files ending on `.json.level` or `.custom`, from
+ron files ending on `.ron.level` and so on...
 
 See the [examples](./examples) for working Bevy apps using the different formats.
 
@@ -74,10 +76,6 @@ Compatibility of `bevy_common_assets` versions:
 | `0.1` - `0.2`        | `0.7`  |
 | `main`               | `0.8`  |
 | `bevy_main`          | `main` |
-
-## Prior art
-
-If you only need to load `ron` files, [`bevy_asset_ron`][bevy_asset_ron] offers the same functionality as `bevy_common_assets`.
 
 ## License
 
@@ -95,4 +93,3 @@ for inclusion in the work by you, as defined in the Apache-2.0 license, shall be
 additional terms or conditions.
 
 [bevy]: https://bevyengine.org/
-[bevy_asset_ron]: https://github.com/IyesGames/bevy_asset_ron
