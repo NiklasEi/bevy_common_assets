@@ -27,39 +27,37 @@ struct Level {
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     let json_trees: Handle<Level> = asset_server.load("trees.json.level");
     let ron_trees: Handle<Level> = asset_server.load("trees.ron.level");
-    commands.insert_resource(Handles(vec![json_trees, ron_trees]));
-    let tree: Handle<Image> = asset_server.load("tree.png");
+    commands.insert_resource(Levels(vec![json_trees, ron_trees]));
+    let tree = ImageHandle(asset_server.load("tree.png"));
     commands.insert_resource(tree);
 
-    commands.spawn_bundle(Camera2dBundle::default());
+    commands.spawn(Camera2dBundle::default());
 }
 
 fn spawn_level(
     mut commands: Commands,
-    handles: Res<Handles>,
-    mut levels: ResMut<Assets<Level>>,
-    tree: Res<Handle<Image>>,
+    levels: Res<Levels>,
+    tree: Res<ImageHandle>,
+    mut level_assets: ResMut<Assets<Level>>,
 ) {
-    for handle in handles.0.iter() {
-        let level = levels.remove(handle).unwrap();
+    for handle in levels.0.iter() {
+        let level = level_assets.remove(handle).unwrap();
         for position in level.positions {
-            commands.spawn_bundle(SpriteBundle {
+            commands.spawn(SpriteBundle {
                 transform: Transform::from_translation(position.into()),
-                texture: tree.clone(),
+                texture: tree.0.clone(),
                 ..default()
             });
         }
     }
 }
 
-struct Handles(Vec<Handle<Level>>);
-
 fn check_loading(
     asset_server: Res<AssetServer>,
-    handles: Res<Handles>,
+    handles: Res<Levels>,
     mut state: ResMut<State<AppState>>,
 ) {
-    if asset_server.get_group_load_state(handles.0.iter().map(|handle| handle.id))
+    if asset_server.get_group_load_state(handles.0.iter().map(|handle| handle.id()))
         == LoadState::Loaded
     {
         state.set(AppState::Level).unwrap();
@@ -71,3 +69,9 @@ enum AppState {
     Loading,
     Level,
 }
+
+#[derive(Resource)]
+struct ImageHandle(Handle<Image>);
+
+#[derive(Resource)]
+struct Levels(Vec<Handle<Level>>);
