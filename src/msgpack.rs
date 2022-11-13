@@ -3,7 +3,7 @@ use bevy::asset::{AddAsset, Asset, AssetLoader, BoxedFuture, LoadContext, Loaded
 use rmp_serde::from_slice;
 use std::marker::PhantomData;
 
-/// Plugin to load your asset type `A` from MessagePack files.
+/// Plugin to load your asset type `A` from `MessagePack` files.
 pub struct MsgPackAssetPlugin<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,

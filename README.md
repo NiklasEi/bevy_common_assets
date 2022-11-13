@@ -9,7 +9,7 @@ Collection of [Bevy][bevy] plugins offering generic asset loaders for common fil
 
 Supported formats:
 
-|  format   |  feature  |  example                              |
+| format    | feature   | example                               |
 |:----------|:----------|:--------------------------------------|
 | `json`    | `json`    | [`json.rs`](./examples/json.rs)       |
 | `msgpack` | `msgpack` | [`msgpack.rs`](./examples/msgpack.rs) |
@@ -75,7 +75,7 @@ Compatibility of `bevy_common_assets` versions:
 | `0.4`                | `0.9`  |
 | `0.3`                | `0.8`  |
 | `0.1` - `0.2`        | `0.7`  |
-| `main`               | `0.8`  |
+| `main`               | `0.9`  |
 | `bevy_main`          | `main` |
 
 ## License
