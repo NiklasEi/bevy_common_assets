@@ -14,26 +14,26 @@ fn main() {
 }
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let handle: Handle<Level> = asset_server.load("trees.msgpack.level");
-    commands.insert_resource(handle);
-    let tree: Handle<Image> = asset_server.load("tree.png");
+    let level = LevelHandle(asset_server.load("trees.msgpack.level"));
+    commands.insert_resource(level);
+    let tree = ImageHandle(asset_server.load("tree.png"));
     commands.insert_resource(tree);
 
-    commands.spawn_bundle(Camera2dBundle::default());
+    commands.spawn(Camera2dBundle::default());
 }
 
 fn spawn_level(
     mut commands: Commands,
-    handle: Res<Handle<Level>>,
+    level: Res<LevelHandle>,
+    tree: Res<ImageHandle>,
     mut levels: ResMut<Assets<Level>>,
     mut state: ResMut<State<AppState>>,
-    tree: Res<Handle<Image>>,
 ) {
-    if let Some(level) = levels.remove(handle.id) {
+    if let Some(level) = levels.remove(level.0.id()) {
         for position in level.positions {
-            commands.spawn_bundle(SpriteBundle {
+            commands.spawn(SpriteBundle {
                 transform: Transform::from_translation(position.into()),
-                texture: tree.clone(),
+                texture: tree.0.clone(),
                 ..default()
             });
         }
@@ -53,3 +53,9 @@ enum AppState {
     Loading,
     Level,
 }
+
+#[derive(Resource)]
+struct ImageHandle(Handle<Image>);
+
+#[derive(Resource)]
+struct LevelHandle(Handle<Level>);

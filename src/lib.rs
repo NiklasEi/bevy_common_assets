@@ -29,7 +29,7 @@
 //! }
 //!
 //! fn load_level(mut commands: Commands, asset_server: Res<AssetServer>) {
-//!     let handle: Handle<Level> = asset_server.load("trees.level");
+//!     let handle = LevelAsset(asset_server.load("trees.level"));
 //!     commands.insert_resource(handle);
 //! }
 //!
@@ -38,6 +38,9 @@
 //! struct Level {
 //!     positions: Vec<[f32; 3]>,
 //! }
+//!
+//! #[derive(Resource)]
+//! struct LevelAsset(Handle<Level>);
 //!
 //! # fn stop(mut events: EventWriter<AppExit>) {
 //! #     events.send(AppExit)
