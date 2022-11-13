@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.4.0 - 13.11.2022
+- Update to Bevy 0.9
+
 ## v0.3.0 - 30.7.2022
 - Update to Bevy 0.8
 
