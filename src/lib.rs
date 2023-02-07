@@ -1,7 +1,7 @@
 //! Bevy plugin offering generic asset loaders for common file formats
 //!
 //! This library includes a collection of thin wrapper plugins around serde implementations for the
-//! common file formats json, ron, toml, yaml, and MessagePack. Each plugin adds an asset loader
+//! common file formats `json`, `ron`, `toml`, `yaml`, and `MessagePack`. Each plugin adds an asset loader
 //! for a user type. Assets of that type will then be loaded from all files with configurable
 //! extensions.
 //!
@@ -51,23 +51,23 @@
 #![warn(unused_imports, missing_docs)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
-/// Module containing a Bevy plugin to load assets from json files with custom file extensions.
+/// Module containing a Bevy plugin to load assets from `json` files with custom file extensions.
 #[cfg_attr(docsrs, doc(cfg(feature = "json")))]
 #[cfg(feature = "json")]
 pub mod json;
-/// Module containing a Bevy plugin to load assets from MassagePack files with custom file extensions.
+/// Module containing a Bevy plugin to load assets from `MassagePack` files with custom file extensions.
 #[cfg_attr(docsrs, doc(cfg(feature = "msgpack")))]
 #[cfg(feature = "msgpack")]
 pub mod msgpack;
-/// Module containing a Bevy plugin to load assets from ron files with custom file extensions.
+/// Module containing a Bevy plugin to load assets from `ron` files with custom file extensions.
 #[cfg_attr(docsrs, doc(cfg(feature = "ron")))]
 #[cfg(feature = "ron")]
 pub mod ron;
-/// Module containing a Bevy plugin to load assets from toml files with custom file extensions.
+/// Module containing a Bevy plugin to load assets from `toml` files with custom file extensions.
 #[cfg_attr(docsrs, doc(cfg(feature = "toml")))]
 #[cfg(feature = "toml")]
 pub mod toml;
-/// Module containing a Bevy plugin to load assets from yaml files with custom file extensions.
+/// Module containing a Bevy plugin to load assets from `yaml` files with custom file extensions.
 #[cfg_attr(docsrs, doc(cfg(feature = "yaml")))]
 #[cfg(feature = "yaml")]
 pub mod yaml;
