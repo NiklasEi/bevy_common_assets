@@ -1,5 +1,8 @@
 # Changelog
 
+- Update to Bevy 0.10
+- Update `ron` to 0.8 and `toml` to 0.7
+
 ## v0.4.0 - 13.11.2022
 - Update to Bevy 0.9
 
