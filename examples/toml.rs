@@ -5,16 +5,16 @@ use bevy_common_assets::toml::TomlAssetPlugin;
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(TomlAssetPlugin::<Level>::new(&["toml.level"]))
-        .insert_resource(Msaa { samples: 1 })
-        .add_state(AppState::Loading)
+        .add_plugin(TomlAssetPlugin::<Level>::new(&["level.toml"]))
+        .insert_resource(Msaa::Off)
+        .add_state::<AppState>()
         .add_startup_system(setup)
-        .add_system_set(SystemSet::on_update(AppState::Loading).with_system(spawn_level))
+        .add_system(spawn_level.on_update(AppState::Loading))
         .run()
 }
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let level = LevelHandle(asset_server.load("trees.toml.level"));
+    let level = LevelHandle(asset_server.load("trees.level.toml"));
     commands.insert_resource(level);
     let tree = ImageHandle(asset_server.load("tree.png"));
     commands.insert_resource(tree);
@@ -27,7 +27,7 @@ fn spawn_level(
     level: Res<LevelHandle>,
     tree: Res<ImageHandle>,
     mut levels: ResMut<Assets<Level>>,
-    mut state: ResMut<State<AppState>>,
+    mut state: ResMut<NextState<AppState>>,
 ) {
     if let Some(level) = levels.remove(level.0.id()) {
         for position in level.positions {
@@ -38,7 +38,7 @@ fn spawn_level(
             });
         }
 
-        state.set(AppState::Level).unwrap();
+        state.set(AppState::Level);
     }
 }
 
@@ -48,8 +48,9 @@ struct Level {
     positions: Vec<[f32; 3]>,
 }
 
-#[derive(Clone, Eq, PartialEq, Debug, Hash)]
+#[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 enum AppState {
+    #[default]
     Loading,
     Level,
 }

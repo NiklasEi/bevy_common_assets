@@ -1,7 +1,7 @@
 use bevy::app::{App, Plugin};
 use bevy::asset::{AddAsset, Asset, AssetLoader, BoxedFuture, LoadContext, LoadedAsset};
-use serde_toml::from_slice;
 use std::marker::PhantomData;
+use std::str::from_utf8;
 
 /// Plugin to load your asset type `A` from toml files.
 pub struct TomlAssetPlugin<A> {
@@ -49,7 +49,7 @@ where
         load_context: &'a mut LoadContext,
     ) -> BoxedFuture<'a, Result<(), anyhow::Error>> {
         Box::pin(async move {
-            let asset = from_slice::<A>(bytes)?;
+            let asset = serde_toml::from_str::<A>(from_utf8(bytes)?)?;
             load_context.set_default_asset(LoadedAsset::new(asset));
             Ok(())
         })
