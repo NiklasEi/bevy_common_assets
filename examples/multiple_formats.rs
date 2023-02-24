@@ -12,9 +12,9 @@ fn main() {
         .add_plugin(RonAssetPlugin::<Level>::new(&["level.ron"]))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
-        .add_startup_system(setup)
-        .add_system(check_loading.on_update(AppState::Loading))
-        .add_system_to_schedule(OnEnter(AppState::Level), spawn_level)
+        .add_system(setup.on_startup())
+        .add_system(check_loading.run_if(in_state(AppState::Loading)))
+        .add_system(spawn_level.in_schedule(OnEnter(AppState::Level)))
         .run();
 }
 
