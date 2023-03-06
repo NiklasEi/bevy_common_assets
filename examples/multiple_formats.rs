@@ -8,13 +8,13 @@ fn main() {
         .add_plugins(DefaultPlugins)
         // You can add loaders for different asset types, but also multiple loaders for the same asset type
         // The important thing is: they all need distinct extensions!
-        .add_plugin(JsonAssetPlugin::<Level>::new(&["json.level"]))
-        .add_plugin(RonAssetPlugin::<Level>::new(&["ron.level"]))
-        .insert_resource(Msaa { samples: 1 })
-        .add_state(AppState::Loading)
-        .add_startup_system(setup)
-        .add_system_set(SystemSet::on_update(AppState::Loading).with_system(check_loading))
-        .add_system_set(SystemSet::on_enter(AppState::Level).with_system(spawn_level))
+        .add_plugin(JsonAssetPlugin::<Level>::new(&["level.json"]))
+        .add_plugin(RonAssetPlugin::<Level>::new(&["level.ron"]))
+        .insert_resource(Msaa::Off)
+        .add_state::<AppState>()
+        .add_system(setup.on_startup())
+        .add_system(check_loading.run_if(in_state(AppState::Loading)))
+        .add_system(spawn_level.in_schedule(OnEnter(AppState::Level)))
         .run();
 }
 
@@ -25,8 +25,8 @@ struct Level {
 }
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let json_trees: Handle<Level> = asset_server.load("trees.json.level");
-    let ron_trees: Handle<Level> = asset_server.load("trees.ron.level");
+    let json_trees: Handle<Level> = asset_server.load("trees.level.json");
+    let ron_trees: Handle<Level> = asset_server.load("trees.level.ron");
     commands.insert_resource(Levels(vec![json_trees, ron_trees]));
     let tree = ImageHandle(asset_server.load("tree.png"));
     commands.insert_resource(tree);
@@ -55,17 +55,18 @@ fn spawn_level(
 fn check_loading(
     asset_server: Res<AssetServer>,
     handles: Res<Levels>,
-    mut state: ResMut<State<AppState>>,
+    mut state: ResMut<NextState<AppState>>,
 ) {
     if asset_server.get_group_load_state(handles.0.iter().map(|handle| handle.id()))
         == LoadState::Loaded
     {
-        state.set(AppState::Level).unwrap();
+        state.set(AppState::Level);
     }
 }
 
-#[derive(Clone, Eq, PartialEq, Debug, Hash)]
+#[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
 enum AppState {
+    #[default]
     Loading,
     Level,
 }
