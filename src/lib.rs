@@ -19,9 +19,9 @@
 //!         .add_plugins(DefaultPlugins)
 //! # */
 //! #       .add_plugins(MinimalPlugins)
-//! #       .add_plugin(bevy::asset::AssetPlugin::default())
+//! #       .add_plugin(AssetPlugin::default())
 //! # /*
-//!         .add_plugin(JsonAssetPlugin::<Level>::new(&["level"]))
+//!         .add_plugin(JsonAssetPlugin::<Level>::new(&["level.json"]))
 //! # */
 //!         .add_startup_system(load_level)
 //! #       .add_system(stop)
@@ -29,7 +29,7 @@
 //! }
 //!
 //! fn load_level(mut commands: Commands, asset_server: Res<AssetServer>) {
-//!     let handle = LevelAsset(asset_server.load("trees.level"));
+//!     let handle = LevelAsset(asset_server.load("trees.level.json"));
 //!     commands.insert_resource(handle);
 //! }
 //!
