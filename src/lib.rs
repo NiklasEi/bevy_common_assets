@@ -1,9 +1,9 @@
 //! Bevy plugin offering generic asset loaders for common file formats
 //!
 //! This library includes a collection of thin wrapper plugins around serde implementations for the
-//! common file formats `json`, `ron`, `toml`, `yaml`, and `MessagePack`. Each plugin adds an asset loader
-//! for a user type. Assets of that type will then be loaded from all files with configurable
-//! extensions.
+//! common file formats `json`, `ron`, `toml`, `yaml`, `MessagePack` and `xml`. Each plugin adds
+//! an asset loader for a user type. Assets of that type will then be loaded from all files with
+//! configurable extensions.
 //!
 //! The following example requires the `json` feature and loads a custom asset from a json file.
 //! ```
@@ -67,6 +67,10 @@ pub mod ron;
 #[cfg_attr(docsrs, doc(cfg(feature = "toml")))]
 #[cfg(feature = "toml")]
 pub mod toml;
+/// Module containing a Bevy plugin to load assets from `xml` files with custom file extensions.
+#[cfg_attr(docsrs, doc(cfg(feature = "xml")))]
+#[cfg(feature = "xml")]
+pub mod xml;
 /// Module containing a Bevy plugin to load assets from `yaml` files with custom file extensions.
 #[cfg_attr(docsrs, doc(cfg(feature = "yaml")))]
 #[cfg(feature = "yaml")]
@@ -77,6 +81,7 @@ pub mod yaml;
     feature = "msgpack",
     feature = "ron",
     feature = "toml",
+    feature = "xml",
     feature = "yaml"
 ))]
 #[doc = include_str!("../README.md")]
