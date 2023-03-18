@@ -15,6 +15,7 @@ Supported formats:
 | `msgpack` | `msgpack` | [`msgpack.rs`](./examples/msgpack.rs) |
 | `ron`     | `ron`     | [`ron.rs`](./examples/ron.rs)         |
 | `toml`    | `toml`    | [`toml.rs`](./examples/toml.rs)       |
+| `xml`     | `xml`     | [`xml.rs`](./examples/xml.rs)         |
 | `yaml`    | `yaml`    | [`yaml.rs`](./examples/yaml.rs)       |
 
 ## Usage
