@@ -15,6 +15,7 @@ Supported formats:
 | `msgpack` | `msgpack` | [`msgpack.rs`](./examples/msgpack.rs) |
 | `ron`     | `ron`     | [`ron.rs`](./examples/ron.rs)         |
 | `toml`    | `toml`    | [`toml.rs`](./examples/toml.rs)       |
+| `xml`     | `xml`     | [`xml.rs`](./examples/xml.rs)         |
 | `yaml`    | `yaml`    | [`yaml.rs`](./examples/yaml.rs)       |
 
 ## Usage
@@ -38,16 +39,18 @@ use bevy_common_assets::json::JsonAssetPlugin;
 use bevy_common_assets::msgpack::MsgPackAssetPlugin;
 use bevy_common_assets::ron::RonAssetPlugin;
 use bevy_common_assets::toml::TomlAssetPlugin;
+use bevy_common_assets::xml::XmlAssetPlugin;
 use bevy_common_assets::yaml::YamlAssetPlugin;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(JsonAssetPlugin::<Level>::new(&["json.level", "custom"]))
-        .add_plugin(RonAssetPlugin::<Level>::new(&["ron.level"]))
-        .add_plugin(MsgPackAssetPlugin::<Level>::new(&["msgpack.level"]))
-        .add_plugin(TomlAssetPlugin::<Level>::new(&["toml.level"]))
-        .add_plugin(YamlAssetPlugin::<Level>::new(&["yaml.level"]))
+        .add_plugin(JsonAssetPlugin::<Level>::new(&["level.json", "custom.json"]))
+        .add_plugin(RonAssetPlugin::<Level>::new(&["level.ron"]))
+        .add_plugin(MsgPackAssetPlugin::<Level>::new(&["level.msgpack"]))
+        .add_plugin(TomlAssetPlugin::<Level>::new(&["level.toml"]))
+        .add_plugin(XmlAssetPlugin::<Level>::new(&["level.xml"]))
+        .add_plugin(YamlAssetPlugin::<Level>::new(&["level.yaml"]))
         // ...
         .run();
 }
@@ -72,7 +75,7 @@ Compatibility of `bevy_common_assets` versions:
 
 | `bevy_common_assets` | `bevy` |
 |:---------------------|:-------|
-| `0.5`                | `0.10` |
+| `0.5` - `0.6`        | `0.10` |
 | `0.4`                | `0.9`  |
 | `0.3`                | `0.8`  |
 | `0.1` - `0.2`        | `0.7`  |

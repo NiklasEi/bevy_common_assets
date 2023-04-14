@@ -1,11 +1,12 @@
+use bevy::math::f32::Vec3;
 use bevy::prelude::*;
 use bevy::reflect::TypeUuid;
-use bevy_common_assets::yaml::YamlAssetPlugin;
+use bevy_common_assets::xml::XmlAssetPlugin;
 
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .add_plugin(YamlAssetPlugin::<Level>::new(&["level.yaml"]))
+        .add_plugin(XmlAssetPlugin::<Level>::new(&["level.xml"]))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
         .add_systems(Startup, setup)
@@ -14,7 +15,7 @@ fn main() {
 }
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let level = LevelHandle(asset_server.load("trees.level.yaml"));
+    let level = LevelHandle(asset_server.load("trees.level.xml"));
     commands.insert_resource(level);
     let tree = ImageHandle(asset_server.load("tree.png"));
     commands.insert_resource(tree);
@@ -32,7 +33,9 @@ fn spawn_level(
     if let Some(level) = levels.remove(level.0.id()) {
         for position in level.positions {
             commands.spawn(SpriteBundle {
-                transform: Transform::from_translation(position.into()),
+                transform: Transform::from_translation(Vec3::new(
+                    position.x, position.y, position.z,
+                )),
                 texture: tree.0.clone(),
                 ..default()
             });
@@ -45,7 +48,20 @@ fn spawn_level(
 #[derive(serde::Deserialize, TypeUuid)]
 #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
 struct Level {
-    positions: Vec<[f32; 3]>,
+    #[serde(rename = "Position")]
+    positions: Vec<Position>,
+}
+
+#[derive(serde::Deserialize)]
+struct Position {
+    #[serde(rename = "@x")]
+    x: f32,
+
+    #[serde(rename = "@y")]
+    y: f32,
+
+    #[serde(rename = "@z")]
+    z: f32,
 }
 
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]

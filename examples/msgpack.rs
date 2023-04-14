@@ -8,8 +8,8 @@ fn main() {
         .add_plugin(MsgPackAssetPlugin::<Level>::new(&["level.msgpack"]))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
-        .add_system(setup.on_startup())
-        .add_system(spawn_level.run_if(in_state(AppState::Loading)))
+        .add_systems(Startup, setup)
+        .add_systems(Update, spawn_level.run_if(in_state(AppState::Loading)))
         .run()
 }
 
