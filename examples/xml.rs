@@ -56,10 +56,8 @@ struct Level {
 struct Position {
     #[serde(rename = "@x")]
     x: f32,
-
     #[serde(rename = "@y")]
     y: f32,
-
     #[serde(rename = "@z")]
     z: f32,
 }

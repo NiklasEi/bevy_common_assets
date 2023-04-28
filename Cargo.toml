@@ -13,12 +13,12 @@ categories = ["game-development"]
 readme = "./README.md"
 
 [features]
-ron = ["serde_ron"]
-toml = ["serde_toml"]
-yaml = ["serde_yaml"]
-json = ["serde_json"]
-msgpack = ["rmp-serde"]
-xml = ["quick-xml"]
+ron = ["dep:serde_ron"]
+toml = ["dep:serde_toml"]
+yaml = ["dep:serde_yaml"]
+json = ["dep:serde_json"]
+msgpack = ["dep:rmp-serde"]
+xml = ["dep:quick-xml"]
 
 [dependencies]
 bevy = { version = "0.10", default-features = false, features = ["bevy_asset"] }
