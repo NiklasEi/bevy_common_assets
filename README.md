@@ -62,8 +62,8 @@ struct Level {
 }
 ```
 
-The example above will load `Level` structs from json files ending on `.json.level` or `.custom`, from
-ron files ending on `.ron.level` and so on...
+The example above will load `Level` structs from json files ending on `.level.json` or `.custom.json`, from
+ron files ending on `.level.ron` and so on...
 
 See the [examples](./examples) for working Bevy apps using the different formats.
 
