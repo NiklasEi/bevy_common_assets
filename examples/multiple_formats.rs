@@ -1,5 +1,6 @@
 use bevy::asset::LoadState;
 use bevy::prelude::*;
+use bevy::reflect::{TypePath, TypeUuid};
 use bevy_common_assets::json::JsonAssetPlugin;
 use bevy_common_assets::ron::RonAssetPlugin;
 
@@ -18,7 +19,7 @@ fn main() {
         .run();
 }
 
-#[derive(serde::Deserialize, bevy::reflect::TypeUuid)]
+#[derive(serde::Deserialize, TypeUuid, TypePath)]
 #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
 struct Level {
     positions: Vec<[f32; 3]>,

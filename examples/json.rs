@@ -1,5 +1,5 @@
 use bevy::prelude::*;
-use bevy::reflect::TypeUuid;
+use bevy::reflect::{TypePath, TypeUuid};
 use bevy_common_assets::json::JsonAssetPlugin;
 
 fn main() {
@@ -42,7 +42,7 @@ fn spawn_level(
     }
 }
 
-#[derive(serde::Deserialize, TypeUuid)]
+#[derive(serde::Deserialize, TypeUuid, TypePath)]
 #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
 struct Level {
     positions: Vec<[f32; 3]>,

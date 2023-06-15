@@ -4,7 +4,7 @@ version = "0.7.0-dev"
 authors = ["Niklas Eicker <git@nikl.me>"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
-description = "Bevy plugin adding support for common asset formats such as json and yaml"
+description = "Bevy plugin adding generic support for common asset formats such as json and yaml"
 repository = "https://github.com/NiklasEi/bevy_common_assets"
 homepage = "https://github.com/NiklasEi/bevy_common_assets"
 documentation = "https://docs.rs/bevy_common_assets"
@@ -21,7 +21,7 @@ msgpack = ["dep:rmp-serde"]
 xml = ["dep:quick-xml"]
 
 [dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", default-features = false, features = ["bevy_asset"] }
+bevy = { git = "https://github.com/bevyengine/bevy", default-features = false, features = ["bevy_asset"], rev = "13f50c7a" }
 serde_toml = { version = "0.7", package = "toml", optional = true }
 serde_ron = { version = "0.8", package = "ron", optional = true }
 serde_yaml = { version = "0.9", optional = true }
@@ -32,7 +32,7 @@ serde = { version = "1" }
 anyhow = { version = "1" }
 
 [dev-dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy" }
+bevy = { git = "https://github.com/bevyengine/bevy", rev = "13f50c7a" }
 serde = { version = "1" }
 
 [package.metadata.docs.rs]
