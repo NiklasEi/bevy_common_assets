@@ -1,24 +1,27 @@
 use bevy::asset::LoadState;
 use bevy::prelude::*;
+use bevy::reflect::{TypePath, TypeUuid};
 use bevy_common_assets::json::JsonAssetPlugin;
 use bevy_common_assets::ron::RonAssetPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
         // You can add loaders for different asset types, but also multiple loaders for the same asset type
         // The important thing is: they all need distinct extensions!
-        .add_plugin(JsonAssetPlugin::<Level>::new(&["level.json"]))
-        .add_plugin(RonAssetPlugin::<Level>::new(&["level.ron"]))
+        .add_plugins((
+            DefaultPlugins,
+            RonAssetPlugin::<Level>::new(&["level.ron"]),
+            JsonAssetPlugin::<Level>::new(&["level.json"]),
+        ))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
-        .add_system(setup.on_startup())
-        .add_system(check_loading.run_if(in_state(AppState::Loading)))
-        .add_system(spawn_level.in_schedule(OnEnter(AppState::Level)))
+        .add_systems(Startup, setup)
+        .add_systems(Update, check_loading.run_if(in_state(AppState::Loading)))
+        .add_systems(OnEnter(AppState::Level), spawn_level)
         .run();
 }
 
-#[derive(serde::Deserialize, bevy::reflect::TypeUuid)]
+#[derive(serde::Deserialize, TypeUuid, TypePath)]
 #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
 struct Level {
     positions: Vec<[f32; 3]>,

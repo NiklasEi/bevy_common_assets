@@ -8,6 +8,7 @@
 //! The following example requires the `json` feature and loads a custom asset from a json file.
 //! ```
 //! use bevy::prelude::*;
+//! use bevy::reflect::{TypeUuid, TypePath};
 //! # /*
 //! use bevy_common_assets::json::JsonAssetPlugin;
 //! # */
@@ -16,15 +17,11 @@
 //! fn main() {
 //!     App::new()
 //! # /*
-//!         .add_plugins(DefaultPlugins)
+//!         .add_plugins((DefaultPlugins, JsonAssetPlugin::<Level>::new(&["level.json"])))
 //! # */
-//! #       .add_plugins(MinimalPlugins)
-//! #       .add_plugin(AssetPlugin::default())
-//! # /*
-//!         .add_plugin(JsonAssetPlugin::<Level>::new(&["level.json"]))
-//! # */
-//!         .add_startup_system(load_level)
-//! #       .add_system(stop)
+//! #       .add_plugins((MinimalPlugins, AssetPlugin::default()))
+//!         .add_systems(Startup, load_level)
+//! #       .add_systems(Update, stop)
 //!         .run()
 //! }
 //!
@@ -33,7 +30,7 @@
 //!     commands.insert_resource(handle);
 //! }
 //!
-//! #[derive(serde::Deserialize, bevy::reflect::TypeUuid)]
+//! #[derive(serde::Deserialize, TypeUuid, TypePath)]
 //! #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
 //! struct Level {
 //!     positions: Vec<[f32; 3]>,

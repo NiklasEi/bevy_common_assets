@@ -1,15 +1,17 @@
 use bevy::prelude::*;
-use bevy::reflect::TypeUuid;
+use bevy::reflect::{TypePath, TypeUuid};
 use bevy_common_assets::json::JsonAssetPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
-        .add_plugin(JsonAssetPlugin::<Level>::new(&["level.json"]))
+        .add_plugins((
+            DefaultPlugins,
+            JsonAssetPlugin::<Level>::new(&["level.json"]),
+        ))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
-        .add_system(setup.on_startup())
-        .add_system(spawn_level.run_if(in_state(AppState::Loading)))
+        .add_systems(Startup, setup)
+        .add_systems(Update, spawn_level.run_if(in_state(AppState::Loading)))
         .run()
 }
 
@@ -42,7 +44,7 @@ fn spawn_level(
     }
 }
 
-#[derive(serde::Deserialize, TypeUuid)]
+#[derive(serde::Deserialize, TypeUuid, TypePath)]
 #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
 struct Level {
     positions: Vec<[f32; 3]>,
