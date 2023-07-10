@@ -4,8 +4,10 @@ use bevy_common_assets::json::JsonAssetPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
-        .add_plugin(JsonAssetPlugin::<Level>::new(&["level.json"]))
+        .add_plugins((
+            DefaultPlugins,
+            JsonAssetPlugin::<Level>::new(&["level.json"]),
+        ))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
         .add_systems(Startup, setup)

@@ -1,6 +1,6 @@
 [package]
 name = "bevy_common_assets"
-version = "0.7.0-dev"
+version = "0.7.0"
 authors = ["Niklas Eicker <git@nikl.me>"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
@@ -21,18 +21,18 @@ msgpack = ["dep:rmp-serde"]
 xml = ["dep:quick-xml"]
 
 [dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy", default-features = false, features = ["bevy_asset"] }
+bevy = { version = "0.11", default-features = false, features = ["bevy_asset"] }
 serde_toml = { version = "0.7", package = "toml", optional = true }
 serde_ron = { version = "0.8", package = "ron", optional = true }
 serde_yaml = { version = "0.9", optional = true }
 serde_json = { version = "1", optional = true }
 rmp-serde = { version = "1", optional = true }
-quick-xml = { version = "0.28.0", features = [ "serialize" ], optional = true }
+quick-xml = { version = "0.29", features = [ "serialize" ], optional = true }
 serde = { version = "1" }
 anyhow = { version = "1" }
 
 [dev-dependencies]
-bevy = { git = "https://github.com/bevyengine/bevy" }
+bevy = { version = "0.11" }
 serde = { version = "1" }
 
 [package.metadata.docs.rs]

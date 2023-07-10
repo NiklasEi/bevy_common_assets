@@ -6,11 +6,13 @@ use bevy_common_assets::ron::RonAssetPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
         // You can add loaders for different asset types, but also multiple loaders for the same asset type
         // The important thing is: they all need distinct extensions!
-        .add_plugin(JsonAssetPlugin::<Level>::new(&["level.json"]))
-        .add_plugin(RonAssetPlugin::<Level>::new(&["level.ron"]))
+        .add_plugins((
+            DefaultPlugins,
+            RonAssetPlugin::<Level>::new(&["level.ron"]),
+            JsonAssetPlugin::<Level>::new(&["level.json"]),
+        ))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
         .add_systems(Startup, setup)

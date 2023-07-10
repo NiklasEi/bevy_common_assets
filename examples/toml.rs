@@ -4,8 +4,10 @@ use bevy_common_assets::toml::TomlAssetPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
-        .add_plugin(TomlAssetPlugin::<Level>::new(&["level.toml"]))
+        .add_plugins((
+            DefaultPlugins,
+            TomlAssetPlugin::<Level>::new(&["level.toml"]),
+        ))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
         .add_systems(Startup, setup)

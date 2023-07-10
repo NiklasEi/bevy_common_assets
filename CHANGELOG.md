@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.7.0 - 10.07.2023
+- Update to Bevy 0.11
+
 ## v0.6.0 - 18.03.2023
 - Support for xml assets
 

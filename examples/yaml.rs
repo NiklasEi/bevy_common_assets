@@ -4,8 +4,10 @@ use bevy_common_assets::yaml::YamlAssetPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
-        .add_plugin(YamlAssetPlugin::<Level>::new(&["level.yaml"]))
+        .add_plugins((
+            DefaultPlugins,
+            YamlAssetPlugin::<Level>::new(&["level.yaml"]),
+        ))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
         .add_systems(Startup, setup)

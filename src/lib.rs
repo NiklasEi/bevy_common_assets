@@ -17,15 +17,11 @@
 //! fn main() {
 //!     App::new()
 //! # /*
-//!         .add_plugins(DefaultPlugins)
+//!         .add_plugins((DefaultPlugins, JsonAssetPlugin::<Level>::new(&["level.json"])))
 //! # */
-//! #       .add_plugins(MinimalPlugins)
-//! #       .add_plugin(AssetPlugin::default())
-//! # /*
-//!         .add_plugin(JsonAssetPlugin::<Level>::new(&["level.json"]))
-//! # */
-//!         .add_startup_system(load_level)
-//! #       .add_system(stop)
+//! #       .add_plugins((MinimalPlugins, AssetPlugin::default()))
+//!         .add_systems(Startup, load_level)
+//! #       .add_systems(Update, stop)
 //!         .run()
 //! }
 //!

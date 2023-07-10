@@ -22,7 +22,7 @@ Supported formats:
 
 Enable the feature(s) for the format(s) that you want to use.
 
-Define the types that you would like to load from files and derive `serde::Deserialize` and `bevy::reflect::TypeUuid` for them. The latter requires a unique uuid as an attribute:
+Define the types that you would like to load from files and derive `serde::Deserialize`, `bevy::reflect::TypePath`, and `bevy::reflect::TypeUuid` for them. The last derive requires a unique uuid as an attribute:
 ```rust
 #[derive(serde::Deserialize, bevy::reflect::TypeUuid, bevy::reflect::TypePath)]
 #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"] // <-- keep me unique
@@ -44,13 +44,15 @@ use bevy_common_assets::yaml::YamlAssetPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
-        .add_plugin(JsonAssetPlugin::<Level>::new(&["level.json", "custom.json"]))
-        .add_plugin(RonAssetPlugin::<Level>::new(&["level.ron"]))
-        .add_plugin(MsgPackAssetPlugin::<Level>::new(&["level.msgpack"]))
-        .add_plugin(TomlAssetPlugin::<Level>::new(&["level.toml"]))
-        .add_plugin(XmlAssetPlugin::<Level>::new(&["level.xml"]))
-        .add_plugin(YamlAssetPlugin::<Level>::new(&["level.yaml"]))
+        .add_plugins((
+            DefaultPlugins,
+            JsonAssetPlugin::<Level>::new(&["level.json", "custom.json"]),
+            RonAssetPlugin::<Level>::new(&["level.ron"]),
+            MsgPackAssetPlugin::<Level>::new(&["level.msgpack"]),
+            TomlAssetPlugin::<Level>::new(&["level.toml"]),
+            XmlAssetPlugin::<Level>::new(&["level.xml"]),
+            YamlAssetPlugin::<Level>::new(&["level.yaml"])
+        ))
         // ...
         .run();
 }
@@ -75,6 +77,7 @@ Compatibility of `bevy_common_assets` versions:
 
 | `bevy_common_assets` | `bevy` |
 |:---------------------|:-------|
+| `0.7`                | `0.11` |
 | `0.5` - `0.6`        | `0.10` |
 | `0.4`                | `0.9`  |
 | `0.3`                | `0.8`  |

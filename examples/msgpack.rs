@@ -4,8 +4,10 @@ use bevy_common_assets::msgpack::MsgPackAssetPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
-        .add_plugin(MsgPackAssetPlugin::<Level>::new(&["level.msgpack"]))
+        .add_plugins((
+            DefaultPlugins,
+            MsgPackAssetPlugin::<Level>::new(&["level.msgpack"]),
+        ))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
         .add_systems(Startup, setup)

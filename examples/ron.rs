@@ -4,8 +4,7 @@ use bevy_common_assets::ron::RonAssetPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
-        .add_plugin(RonAssetPlugin::<Level>::new(&["level.ron"]))
+        .add_plugins((DefaultPlugins, RonAssetPlugin::<Level>::new(&["level.ron"])))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
         .add_systems(Startup, setup)

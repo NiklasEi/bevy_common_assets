@@ -5,8 +5,7 @@ use bevy_common_assets::xml::XmlAssetPlugin;
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
-        .add_plugin(XmlAssetPlugin::<Level>::new(&["level.xml"]))
+        .add_plugins((DefaultPlugins, XmlAssetPlugin::<Level>::new(&["level.xml"])))
         .insert_resource(Msaa::Off)
         .add_state::<AppState>()
         .add_systems(Startup, setup)
