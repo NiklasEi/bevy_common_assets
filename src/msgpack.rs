@@ -1,7 +1,9 @@
 use bevy::app::{App, Plugin};
-use bevy::asset::{AddAsset, Asset, AssetLoader, BoxedFuture, LoadContext, LoadedAsset};
+use bevy::asset::io::Reader;
+use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, BoxedFuture, LoadContext};
 use rmp_serde::from_slice;
 use std::marker::PhantomData;
+use thiserror::Error;
 
 /// Plugin to load your asset type `A` from `MessagePack` files.
 pub struct MsgPackAssetPlugin<A> {
@@ -14,8 +16,8 @@ where
     for<'de> A: serde::Deserialize<'de> + Asset,
 {
     fn build(&self, app: &mut App) {
-        app.add_asset::<A>()
-            .add_asset_loader(MsgPackAssetLoader::<A> {
+        app.init_asset::<A>()
+            .register_asset_loader(MsgPackAssetLoader::<A> {
                 extensions: self.extensions.clone(),
                 _marker: PhantomData,
             });
@@ -40,19 +42,37 @@ struct MsgPackAssetLoader<A> {
     _marker: PhantomData<A>,
 }
 
+/// Possible errors that can be produced by [`MsgPackAssetLoader`]
+#[non_exhaustive]
+#[derive(Debug, Error)]
+pub enum MsgPackLoaderError {
+    /// An [IO Error](std::io::Error)
+    #[error("Could not read the file: {0}")]
+    Io(#[from] std::io::Error),
+    /// A [MessagePack Error](rmp_serde::decode::Error)
+    #[error("Could not parse MessagePack: {0}")]
+    MsgPackError(#[from] rmp_serde::decode::Error),
+}
+
 impl<A> AssetLoader for MsgPackAssetLoader<A>
 where
     for<'de> A: serde::Deserialize<'de> + Asset,
 {
+    type Asset = A;
+    type Settings = ();
+    type Error = MsgPackLoaderError;
+
     fn load<'a>(
         &'a self,
-        bytes: &'a [u8],
-        load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<(), anyhow::Error>> {
+        reader: &'a mut Reader,
+        _settings: &'a (),
+        _load_context: &'a mut LoadContext,
+    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
         Box::pin(async move {
-            let asset = from_slice::<A>(bytes)?;
-            load_context.set_default_asset(LoadedAsset::new(asset));
-            Ok(())
+            let mut bytes = Vec::new();
+            reader.read_to_end(&mut bytes).await?;
+            let asset = from_slice::<A>(&bytes)?;
+            Ok(asset)
         })
     }
 

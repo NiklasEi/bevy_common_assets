@@ -21,18 +21,19 @@ msgpack = ["dep:rmp-serde"]
 xml = ["dep:quick-xml"]
 
 [dependencies]
-bevy = { version = "0.11", default-features = false, features = ["bevy_asset"] }
+bevy = { git="https://github.com/bevyengine/bevy", rev = "34da534", default-features = false, features = ["bevy_asset"] }
 serde_toml = { version = "0.7", package = "toml", optional = true }
 serde_ron = { version = "0.8", package = "ron", optional = true }
 serde_yaml = { version = "0.9", optional = true }
 serde_json = { version = "1", optional = true }
 rmp-serde = { version = "1", optional = true }
+thiserror = "1.0"
 quick-xml = { version = "0.29", features = [ "serialize" ], optional = true }
 serde = { version = "1" }
 anyhow = { version = "1" }
 
 [dev-dependencies]
-bevy = { version = "0.11" }
+bevy = { git="https://github.com/bevyengine/bevy", rev = "34da534" }
 serde = { version = "1" }
 
 [package.metadata.docs.rs]

@@ -1,8 +1,10 @@
 use bevy::app::{App, Plugin};
-use bevy::asset::{AddAsset, Asset, AssetLoader, BoxedFuture, LoadContext, LoadedAsset};
+use bevy::asset::io::Reader;
+use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, BoxedFuture, LoadContext};
 use quick_xml::de::from_str;
 use std::marker::PhantomData;
 use std::str::from_utf8;
+use thiserror::Error;
 
 /// Plugin to load your asset type `A` from xml files.
 /// Read the [`quick_xml` docs](https://docs.rs/quick-xml/latest/quick_xml/de/) for tips on deserialization.
@@ -16,10 +18,11 @@ where
     for<'de> A: serde::Deserialize<'de> + Asset,
 {
     fn build(&self, app: &mut App) {
-        app.add_asset::<A>().add_asset_loader(XmlAssetLoader::<A> {
-            extensions: self.extensions.clone(),
-            _marker: PhantomData,
-        });
+        app.init_asset::<A>()
+            .register_asset_loader(XmlAssetLoader::<A> {
+                extensions: self.extensions.clone(),
+                _marker: PhantomData,
+            });
     }
 }
 
@@ -41,19 +44,40 @@ struct XmlAssetLoader<A> {
     _marker: PhantomData<A>,
 }
 
+/// Possible errors that can be produced by [`XmlAssetLoader`]
+#[non_exhaustive]
+#[derive(Debug, Error)]
+pub enum XmlLoaderError {
+    /// An [IO Error](std::io::Error)
+    #[error("Could not read the file: {0}")]
+    Io(#[from] std::io::Error),
+    /// A [conversion Error](std::str::Utf8Error)
+    #[error("Could not interpret as UTF-8: {0}")]
+    FormatError(#[from] std::str::Utf8Error),
+    /// A [XML Error](quick_xml::DeError)
+    #[error("Could not parse XML: {0}")]
+    XmlError(#[from] quick_xml::DeError),
+}
+
 impl<A> AssetLoader for XmlAssetLoader<A>
 where
     for<'de> A: serde::Deserialize<'de> + Asset,
 {
+    type Asset = A;
+    type Settings = ();
+    type Error = XmlLoaderError;
+
     fn load<'a>(
         &'a self,
-        bytes: &'a [u8],
-        load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<(), anyhow::Error>> {
+        reader: &'a mut Reader,
+        _settings: &'a (),
+        _load_context: &'a mut LoadContext,
+    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
         Box::pin(async move {
-            let asset = from_str::<A>(from_utf8(bytes)?)?;
-            load_context.set_default_asset(LoadedAsset::new(asset));
-            Ok(())
+            let mut bytes = Vec::new();
+            reader.read_to_end(&mut bytes).await?;
+            let asset = from_str::<A>(from_utf8(&bytes)?)?;
+            Ok(asset)
         })
     }
 

@@ -1,7 +1,9 @@
 use bevy::app::{App, Plugin};
-use bevy::asset::{AddAsset, Asset, AssetLoader, BoxedFuture, LoadContext, LoadedAsset};
+use bevy::asset::io::Reader;
+use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, BoxedFuture, LoadContext};
 use serde_json::from_slice;
 use std::marker::PhantomData;
+use thiserror::Error;
 
 /// Plugin to load your asset type `A` from json files.
 pub struct JsonAssetPlugin<A> {
@@ -14,10 +16,11 @@ where
     for<'de> A: serde::Deserialize<'de> + Asset,
 {
     fn build(&self, app: &mut App) {
-        app.add_asset::<A>().add_asset_loader(JsonAssetLoader::<A> {
-            extensions: self.extensions.clone(),
-            _marker: PhantomData,
-        });
+        app.init_asset::<A>()
+            .register_asset_loader(JsonAssetLoader::<A> {
+                extensions: self.extensions.clone(),
+                _marker: PhantomData,
+            });
     }
 }
 
@@ -39,19 +42,37 @@ struct JsonAssetLoader<A> {
     _marker: PhantomData<A>,
 }
 
+/// Possible errors that can be produced by [`JsonAssetLoader`]
+#[non_exhaustive]
+#[derive(Debug, Error)]
+pub enum JsonLoaderError {
+    /// An [IO Error](std::io::Error)
+    #[error("Could not read the file: {0}")]
+    Io(#[from] std::io::Error),
+    /// A [JSON Error](serde_json::error::Error)
+    #[error("Could not parse the JSON: {0}")]
+    JsonError(#[from] serde_json::error::Error),
+}
+
 impl<A> AssetLoader for JsonAssetLoader<A>
 where
     for<'de> A: serde::Deserialize<'de> + Asset,
 {
+    type Asset = A;
+    type Settings = ();
+    type Error = JsonLoaderError;
+
     fn load<'a>(
         &'a self,
-        bytes: &'a [u8],
-        load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<(), anyhow::Error>> {
+        reader: &'a mut Reader,
+        _settings: &'a (),
+        _load_context: &'a mut LoadContext,
+    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
         Box::pin(async move {
-            let asset = from_slice::<A>(bytes)?;
-            load_context.set_default_asset(LoadedAsset::new(asset));
-            Ok(())
+            let mut bytes = Vec::new();
+            reader.read_to_end(&mut bytes).await?;
+            let asset = from_slice::<A>(&bytes)?;
+            Ok(asset)
         })
     }
 
