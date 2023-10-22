@@ -22,10 +22,9 @@ Supported formats:
 
 Enable the feature(s) for the format(s) that you want to use.
 
-Define the types that you would like to load from files and derive `serde::Deserialize`, `bevy::reflect::TypePath`, and `bevy::reflect::TypeUuid` for them. The last derive requires a unique uuid as an attribute:
+Define the types that you would like to load from files and derive `serde::Deserialize`, `bevy::reflect::TypePath`, and `bevy::asset::Asset` for them. The last derive requires a unique uuid as an attribute:
 ```rust
-#[derive(serde::Deserialize, bevy::reflect::TypeUuid, bevy::reflect::TypePath)]
-#[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"] // <-- keep me unique
+#[derive(serde::Deserialize, bevy::asset::Asset, bevy::reflect::TypePath)]
 struct Level {
     positions: Vec<[f32;3]>,
 }
@@ -57,8 +56,7 @@ fn main() {
         .run();
 }
 
-#[derive(serde::Deserialize, bevy::reflect::TypeUuid, bevy::reflect::TypePath)]
-#[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
+#[derive(serde::Deserialize, bevy::asset::Asset, bevy::reflect::TypePath)]
 struct Level {
     positions: Vec<[f32; 3]>,
 }

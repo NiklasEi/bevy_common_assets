@@ -8,7 +8,7 @@
 //! The following example requires the `json` feature and loads a custom asset from a json file.
 //! ```
 //! use bevy::prelude::*;
-//! use bevy::reflect::{TypeUuid, TypePath};
+//! use bevy::reflect::TypePath;
 //! # /*
 //! use bevy_common_assets::json::JsonAssetPlugin;
 //! # */
@@ -20,6 +20,7 @@
 //!         .add_plugins((DefaultPlugins, JsonAssetPlugin::<Level>::new(&["level.json"])))
 //! # */
 //! #       .add_plugins((MinimalPlugins, AssetPlugin::default()))
+//! #       .init_asset::<Level>()
 //!         .add_systems(Startup, load_level)
 //! #       .add_systems(Update, stop)
 //!         .run()
@@ -30,8 +31,7 @@
 //!     commands.insert_resource(handle);
 //! }
 //!
-//! #[derive(serde::Deserialize, TypeUuid, TypePath)]
-//! #[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
+//! #[derive(serde::Deserialize, Asset, TypePath)]
 //! struct Level {
 //!     positions: Vec<[f32; 3]>,
 //! }
