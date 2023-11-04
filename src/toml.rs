@@ -1,7 +1,9 @@
 use bevy::app::{App, Plugin};
-use bevy::asset::{AddAsset, Asset, AssetLoader, BoxedFuture, LoadContext, LoadedAsset};
+use bevy::asset::io::Reader;
+use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, BoxedFuture, LoadContext};
 use std::marker::PhantomData;
 use std::str::from_utf8;
+use thiserror::Error;
 
 /// Plugin to load your asset type `A` from toml files.
 pub struct TomlAssetPlugin<A> {
@@ -14,10 +16,11 @@ where
     for<'de> A: serde::Deserialize<'de> + Asset,
 {
     fn build(&self, app: &mut App) {
-        app.add_asset::<A>().add_asset_loader(TomlAssetLoader::<A> {
-            extensions: self.extensions.clone(),
-            _marker: PhantomData,
-        });
+        app.init_asset::<A>()
+            .register_asset_loader(TomlAssetLoader::<A> {
+                extensions: self.extensions.clone(),
+                _marker: PhantomData,
+            });
     }
 }
 
@@ -39,19 +42,40 @@ struct TomlAssetLoader<A> {
     _marker: PhantomData<A>,
 }
 
+/// Possible errors that can be produced by [`TomlAssetLoader`]
+#[non_exhaustive]
+#[derive(Debug, Error)]
+pub enum TomlLoaderError {
+    /// An [IO Error](std::io::Error)
+    #[error("Could not read the file: {0}")]
+    Io(#[from] std::io::Error),
+    /// A [conversion Error](std::str::Utf8Error)
+    #[error("Could not interpret as UTF-8: {0}")]
+    FormatError(#[from] std::str::Utf8Error),
+    /// A [TOML Error](serde_toml::de::Error)
+    #[error("Could not parse TOML: {0}")]
+    TomlError(#[from] serde_toml::de::Error),
+}
+
 impl<A> AssetLoader for TomlAssetLoader<A>
 where
     for<'de> A: serde::Deserialize<'de> + Asset,
 {
+    type Asset = A;
+    type Settings = ();
+    type Error = TomlLoaderError;
+
     fn load<'a>(
         &'a self,
-        bytes: &'a [u8],
-        load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<(), anyhow::Error>> {
+        reader: &'a mut Reader,
+        _settings: &'a (),
+        _load_context: &'a mut LoadContext,
+    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
         Box::pin(async move {
-            let asset = serde_toml::from_str::<A>(from_utf8(bytes)?)?;
-            load_context.set_default_asset(LoadedAsset::new(asset));
-            Ok(())
+            let mut bytes = Vec::new();
+            reader.read_to_end(&mut bytes).await?;
+            let asset = serde_toml::from_str::<A>(from_utf8(&bytes)?)?;
+            Ok(asset)
         })
     }
 

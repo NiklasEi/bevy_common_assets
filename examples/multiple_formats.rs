@@ -1,6 +1,6 @@
 use bevy::asset::LoadState;
 use bevy::prelude::*;
-use bevy::reflect::{TypePath, TypeUuid};
+use bevy::reflect::TypePath;
 use bevy_common_assets::json::JsonAssetPlugin;
 use bevy_common_assets::ron::RonAssetPlugin;
 
@@ -21,8 +21,7 @@ fn main() {
         .run();
 }
 
-#[derive(serde::Deserialize, TypeUuid, TypePath)]
-#[uuid = "413be529-bfeb-41b3-9db0-4b8b380a2c46"]
+#[derive(serde::Deserialize, Asset, TypePath)]
 struct Level {
     positions: Vec<[f32; 3]>,
 }
@@ -60,11 +59,12 @@ fn check_loading(
     handles: Res<Levels>,
     mut state: ResMut<NextState<AppState>>,
 ) {
-    if asset_server.get_group_load_state(handles.0.iter().map(|handle| handle.id()))
-        == LoadState::Loaded
-    {
-        state.set(AppState::Level);
+    for handle in &handles.0 {
+        if asset_server.get_load_state(handle) != Some(LoadState::Loaded) {
+            return;
+        }
     }
+    state.set(AppState::Level);
 }
 
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]
