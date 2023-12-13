@@ -22,7 +22,7 @@ Supported formats:
 
 Enable the feature(s) for the format(s) that you want to use.
 
-Define the types that you would like to load from files and derive `serde::Deserialize`, `bevy::reflect::TypePath`, and `bevy::asset::Asset` for them. The last derive requires a unique uuid as an attribute:
+Define the types that you would like to load from files and derive `serde::Deserialize`, `bevy::reflect::TypePath`, and `bevy::asset::Asset` for them.
 ```rust
 #[derive(serde::Deserialize, bevy::asset::Asset, bevy::reflect::TypePath)]
 struct Level {
