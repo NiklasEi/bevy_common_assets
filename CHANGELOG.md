@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.9.0 - 07.01.2024
+- Add support for CSV files
+
 ## v0.8.0 - 04.11.2023
 - Update to Bevy 0.12
 
