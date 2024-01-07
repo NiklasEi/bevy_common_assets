@@ -30,13 +30,13 @@ fn spawn_level(
     level: Res<LevelHandle>,
     asset_server: Res<AssetServer>,
     tree: Res<ImageHandle>,
-    mut positios: ResMut<Assets<TreePosition>>,
+    positions: Res<Assets<TreePosition>>,
     mut state: ResMut<NextState<AppState>>,
 ) {
     if asset_server.get_recursive_dependency_load_state(&level.0)
         == Some(RecursiveDependencyLoadState::Loaded)
     {
-        for (_, position) in positios.iter() {
+        for (_, position) in positions.iter() {
             commands.spawn(SpriteBundle {
                 transform: Transform::from_translation(Vec3::new(
                     position.x, position.y, position.z,
