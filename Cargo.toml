@@ -19,6 +19,7 @@ yaml = ["dep:serde_yaml"]
 json = ["dep:serde_json"]
 msgpack = ["dep:rmp-serde"]
 xml = ["dep:quick-xml"]
+csv = ["dep:csv"]
 
 [dependencies]
 bevy = { version = "0.12", default-features = false, features = ["bevy_asset"] }
@@ -27,6 +28,7 @@ serde_ron = { version = "0.8", package = "ron", optional = true }
 serde_yaml = { version = "0.9", optional = true }
 serde_json = { version = "1", optional = true }
 rmp-serde = { version = "1", optional = true }
+csv = { version = "1", optional = true }
 thiserror = "1.0"
 quick-xml = { version = "0.31", features = [ "serialize" ], optional = true }
 serde = { version = "1" }
@@ -69,6 +71,11 @@ required-features = ["json"]
 name = "xml"
 path = "examples/xml.rs"
 required-features = ["xml"]
+
+[[example]]
+name = "csv"
+path = "examples/csv.rs"
+required-features = ["csv"]
 
 [[example]]
 name = "multiple_formats"

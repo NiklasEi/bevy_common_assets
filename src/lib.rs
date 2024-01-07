@@ -48,6 +48,10 @@
 #![warn(unused_imports, missing_docs)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
+/// Module containing a Bevy plugin to load assets from `csv` files with custom file extensions.
+#[cfg_attr(docsrs, doc(cfg(feature = "csv")))]
+#[cfg(feature = "csv")]
+pub mod csv;
 /// Module containing a Bevy plugin to load assets from `json` files with custom file extensions.
 #[cfg_attr(docsrs, doc(cfg(feature = "json")))]
 #[cfg(feature = "json")]
@@ -79,7 +83,8 @@ pub mod yaml;
     feature = "ron",
     feature = "toml",
     feature = "xml",
-    feature = "yaml"
+    feature = "yaml",
+    feature = "csv"
 ))]
 #[doc = include_str!("../README.md")]
 #[cfg(doctest)]
