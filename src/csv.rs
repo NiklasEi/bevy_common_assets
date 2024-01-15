@@ -9,6 +9,7 @@ use thiserror::Error;
 pub struct CsvAssetPlugin<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
+    delimiter: u8,
 }
 
 impl<A> Plugin for CsvAssetPlugin<A>
@@ -21,6 +22,7 @@ where
             .register_asset_loader(CsvAssetLoader::<A> {
                 extensions: self.extensions.clone(),
                 _marker: PhantomData,
+                delimiter: self.delimiter,
             });
     }
 }
@@ -34,13 +36,21 @@ where
         Self {
             extensions: extensions.to_owned(),
             _marker: PhantomData,
+            delimiter: b',',
         }
+    }
+
+    /// Change the delimiter used to parse the CSV file.
+    pub fn with_delimiter(mut self, delimiter: u8) -> Self {
+        self.delimiter = delimiter;
+        self
     }
 }
 
 struct CsvAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
+    delimiter: u8,
 }
 
 /// Possible errors that can be produced by [`CsvAssetLoader`]
@@ -82,7 +92,9 @@ where
         Box::pin(async move {
             let mut bytes = Vec::new();
             reader.read_to_end(&mut bytes).await?;
-            let mut reader = csv::Reader::from_reader(bytes.as_slice());
+            let mut reader = csv::ReaderBuilder::new()
+                .delimiter(self.delimiter)
+                .from_reader(bytes.as_slice());
             let mut handles = vec![];
             for (index, result) in reader.deserialize().enumerate() {
                 let asset: A = result?;
