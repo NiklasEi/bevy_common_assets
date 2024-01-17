@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.9.1 - 17.01.2024
+- CsvAssetPlugin supports configuring the delimiter with `with_delimiter`
+
 ## v0.9.0 - 07.01.2024
 - Add support for CSV files
 

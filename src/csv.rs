@@ -41,6 +41,21 @@ where
     }
 
     /// Change the delimiter used to parse the CSV file.
+    ///
+    /// The default is ","
+    ///
+    /// ```no_run
+    /// # use bevy::prelude::*;
+    /// # use bevy_common_assets::csv::CsvAssetPlugin;
+    /// App::new()
+    ///     .add_plugins(CsvAssetPlugin::<TreePosition>::new(&["some_file.csv"]).with_delimiter(b';'));
+    /// # #[derive(serde::Deserialize, Asset, TypePath, Debug)]
+    /// # struct TreePosition {
+    /// #     x: f32,
+    /// #     y: f32,
+    /// #     z: f32,
+    /// # }
+    /// ```
     pub fn with_delimiter(mut self, delimiter: u8) -> Self {
         self.delimiter = delimiter;
         self
