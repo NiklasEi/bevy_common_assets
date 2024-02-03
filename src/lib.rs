@@ -40,7 +40,7 @@
 //! struct LevelAsset(Handle<Level>);
 //!
 //! # fn stop(mut events: EventWriter<AppExit>) {
-//! #     events.send(AppExit)
+//! #     events.send(AppExit);
 //! # }
 //! ```
 
