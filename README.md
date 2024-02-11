@@ -13,6 +13,7 @@ Supported formats:
 |:-----------|:-----------|:---------------------------------------|
 | `json`     | `json`     | [`json.rs`](./examples/json.rs)        |
 | `msgpack`  | `msgpack`  | [`msgpack.rs`](./examples/msgpack.rs)  |
+| `postcard`| `postcard`  | [`postcard.rs`](./examples/postcard.rs)|
 | `ron`      | `ron`      | [`ron.rs`](./examples/ron.rs)          |
 | `toml`     | `toml`     | [`toml.rs`](./examples/toml.rs)        |
 | `xml`      | `xml`      | [`xml.rs`](./examples/xml.rs)          |
@@ -37,6 +38,7 @@ as a generic parameter. You also need to configure custom file endings for each 
 use bevy::prelude::*;
 use bevy_common_assets::json::JsonAssetPlugin;
 use bevy_common_assets::msgpack::MsgPackAssetPlugin;
+use bevy_common_assets::ron::PostcardAssetPlugin;
 use bevy_common_assets::ron::RonAssetPlugin;
 use bevy_common_assets::toml::TomlAssetPlugin;
 use bevy_common_assets::xml::XmlAssetPlugin;
@@ -49,6 +51,7 @@ fn main() {
             JsonAssetPlugin::<Level>::new(&["level.json", "custom.json"]),
             RonAssetPlugin::<Level>::new(&["level.ron"]),
             MsgPackAssetPlugin::<Level>::new(&["level.msgpack"]),
+            PostcardAssetPlugin::<Level>::new(&["level.postcard"]),
             TomlAssetPlugin::<Level>::new(&["level.toml"]),
             XmlAssetPlugin::<Level>::new(&["level.xml"]),
             YamlAssetPlugin::<Level>::new(&["level.yaml"])
