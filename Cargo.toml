@@ -1,6 +1,6 @@
 [package]
 name = "bevy_common_assets"
-version = "0.9.1"
+version = "0.10.0"
 authors = ["Niklas Eicker <git@nikl.me>"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
@@ -22,7 +22,7 @@ xml = ["dep:quick-xml"]
 csv = ["dep:csv"]
 
 [dependencies]
-bevy = { version = "0.12", default-features = false, features = ["bevy_asset"] }
+bevy = { version = "0.13", default-features = false, features = ["bevy_asset"] }
 serde_toml = { version = "0.8", package = "toml", optional = true }
 serde_ron = { version = "0.8", package = "ron", optional = true }
 serde_yaml = { version = "0.9", optional = true }
@@ -35,7 +35,7 @@ serde = { version = "1" }
 anyhow = { version = "1" }
 
 [dev-dependencies]
-bevy = { version = "0.12" }
+bevy = { version = "0.13" }
 serde = { version = "1" }
 
 [package.metadata.docs.rs]
