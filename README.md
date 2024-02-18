@@ -38,7 +38,7 @@ as a generic parameter. You also need to configure custom file endings for each 
 use bevy::prelude::*;
 use bevy_common_assets::json::JsonAssetPlugin;
 use bevy_common_assets::msgpack::MsgPackAssetPlugin;
-use bevy_common_assets::ron::PostcardAssetPlugin;
+use bevy_common_assets::postcard::PostcardAssetPlugin;
 use bevy_common_assets::ron::RonAssetPlugin;
 use bevy_common_assets::toml::TomlAssetPlugin;
 use bevy_common_assets::xml::XmlAssetPlugin;
