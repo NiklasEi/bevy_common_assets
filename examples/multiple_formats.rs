@@ -14,7 +14,7 @@ fn main() {
             JsonAssetPlugin::<Level>::new(&["level.json"]),
         ))
         .insert_resource(Msaa::Off)
-        .add_state::<AppState>()
+        .init_state::<AppState>()
         .add_systems(Startup, setup)
         .add_systems(Update, check_loading.run_if(in_state(AppState::Loading)))
         .add_systems(OnEnter(AppState::Level), spawn_level)

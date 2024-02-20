@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.10.0 - 17.02.2024
+- Update to Bevy 0.13
+
 ## v0.9.1 - 17.01.2024
 - CsvAssetPlugin supports configuring the delimiter with `with_delimiter`
 

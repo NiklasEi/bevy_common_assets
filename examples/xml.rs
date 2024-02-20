@@ -7,7 +7,7 @@ fn main() {
     App::new()
         .add_plugins((DefaultPlugins, XmlAssetPlugin::<Level>::new(&["level.xml"])))
         .insert_resource(Msaa::Off)
-        .add_state::<AppState>()
+        .init_state::<AppState>()
         .add_systems(Startup, setup)
         .add_systems(Update, spawn_level.run_if(in_state(AppState::Loading)))
         .run()
