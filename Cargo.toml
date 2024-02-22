@@ -20,6 +20,7 @@ json = ["dep:serde_json"]
 msgpack = ["dep:rmp-serde"]
 xml = ["dep:quick-xml"]
 csv = ["dep:csv"]
+postcard = ["dep:postcard"]
 
 [dependencies]
 bevy = { version = "0.13", default-features = false, features = ["bevy_asset"] }
@@ -33,6 +34,7 @@ thiserror = "1.0"
 quick-xml = { version = "0.31", features = [ "serialize" ], optional = true }
 serde = { version = "1" }
 anyhow = { version = "1" }
+postcard = {version = "1.0", features = ["use-std"], optional = true}
 
 [dev-dependencies]
 bevy = { version = "0.13" }
@@ -46,6 +48,11 @@ rustdoc-args = ["--cfg", "docsrs"]
 name = "msgpack"
 path = "examples/msgpack.rs"
 required-features = ["msgpack"]
+
+[[example]]
+name = "postcard"
+path = "examples/postcard.rs"
+required-features = ["postcard"]
 
 [[example]]
 name = "ron"
