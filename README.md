@@ -33,7 +33,7 @@ struct Level {
 ```
 
 With the types ready, you can start adding asset plugins. Every plugin gets the asset type that it is supposed to load
-as a generic parameter. You also need to configure custom file endings for each plugin:
+as a generic parameter. You can also configure custom file endings for each plugin:
 ```rust no_run
 use bevy::prelude::*;
 use bevy_common_assets::json::JsonAssetPlugin;
