@@ -37,6 +37,7 @@ where
     }
 }
 
+/// Loads your asset type `A` from ron files
 pub struct RonAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,

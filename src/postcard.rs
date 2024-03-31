@@ -44,6 +44,7 @@ where
     }
 }
 
+/// Loads your asset type `A` from `Postcard` files
 pub struct PostcardAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
@@ -88,6 +89,7 @@ where
     }
 }
 
+/// Saves your asset type `A` to `Postcard` files
 pub struct PostcardAssetSaver<A> {
     _marker: PhantomData<A>,
 }
