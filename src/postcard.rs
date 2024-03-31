@@ -44,7 +44,8 @@ where
     }
 }
 
-struct PostcardAssetLoader<A> {
+/// Loads your asset type `A` from `Postcard` files
+pub struct PostcardAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }
@@ -88,8 +89,17 @@ where
     }
 }
 
-struct PostcardAssetSaver<A> {
+/// Saves your asset type `A` to `Postcard` files
+pub struct PostcardAssetSaver<A> {
     _marker: PhantomData<A>,
+}
+
+impl<A> Default for PostcardAssetSaver<A> {
+    fn default() -> Self {
+        Self {
+            _marker: PhantomData,
+        }
+    }
 }
 
 impl<A: Asset + Serialize> AssetSaver for PostcardAssetSaver<A> {

@@ -37,7 +37,8 @@ where
     }
 }
 
-struct YamlAssetLoader<A> {
+/// Loads your asset type `A` from yaml files
+pub struct YamlAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }

@@ -37,7 +37,8 @@ where
     }
 }
 
-struct MsgPackAssetLoader<A> {
+/// Loads your asset type `A` from `MessagePack` files
+pub struct MsgPackAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }

@@ -39,7 +39,8 @@ where
     }
 }
 
-struct XmlAssetLoader<A> {
+/// Loads your asset type `A` from xml files
+pub struct XmlAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }

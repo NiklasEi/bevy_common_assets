@@ -37,7 +37,8 @@ where
     }
 }
 
-struct TomlAssetLoader<A> {
+/// Loads your asset type `A` from toml files
+pub struct TomlAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }

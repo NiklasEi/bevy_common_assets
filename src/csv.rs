@@ -62,7 +62,8 @@ where
     }
 }
 
-struct CsvAssetLoader<A> {
+/// Loads your asset type `A` from csv files
+pub struct CsvAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
     delimiter: u8,

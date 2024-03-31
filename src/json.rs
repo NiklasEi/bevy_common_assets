@@ -37,7 +37,8 @@ where
     }
 }
 
-struct JsonAssetLoader<A> {
+/// Loads your asset type `A` from json files
+pub struct JsonAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }
