@@ -88,7 +88,7 @@ where
     }
 }
 
-struct PostcardAssetSaver<A> {
+pub struct PostcardAssetSaver<A> {
     _marker: PhantomData<A>,
 }
 
