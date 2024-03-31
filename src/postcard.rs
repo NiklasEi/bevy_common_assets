@@ -94,6 +94,14 @@ pub struct PostcardAssetSaver<A> {
     _marker: PhantomData<A>,
 }
 
+impl<A> Default for PostcardAssetSaver<A> {
+    fn default() -> Self {
+        Self {
+            _marker: PhantomData,
+        }
+    }
+}
+
 impl<A: Asset + Serialize> AssetSaver for PostcardAssetSaver<A> {
     type Asset = A;
     type Settings = ();
