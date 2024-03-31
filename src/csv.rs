@@ -62,7 +62,7 @@ where
     }
 }
 
-struct CsvAssetLoader<A> {
+pub struct CsvAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
     delimiter: u8,

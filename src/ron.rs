@@ -37,7 +37,7 @@ where
     }
 }
 
-struct RonAssetLoader<A> {
+pub struct RonAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }

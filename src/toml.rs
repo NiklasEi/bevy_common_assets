@@ -37,7 +37,7 @@ where
     }
 }
 
-struct TomlAssetLoader<A> {
+pub struct TomlAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }

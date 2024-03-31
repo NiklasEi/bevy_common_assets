@@ -39,7 +39,7 @@ where
     }
 }
 
-struct XmlAssetLoader<A> {
+pub struct XmlAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }

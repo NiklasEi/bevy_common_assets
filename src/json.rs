@@ -37,7 +37,7 @@ where
     }
 }
 
-struct JsonAssetLoader<A> {
+pub struct JsonAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }

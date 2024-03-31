@@ -44,7 +44,7 @@ where
     }
 }
 
-struct PostcardAssetLoader<A> {
+pub struct PostcardAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }

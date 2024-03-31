@@ -37,7 +37,7 @@ where
     }
 }
 
-struct YamlAssetLoader<A> {
+pub struct YamlAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
 }
