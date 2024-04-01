@@ -102,10 +102,10 @@ impl<A> Default for PostcardAssetSaver<A> {
     }
 }
 
-impl<A: Asset + Serialize> AssetSaver for PostcardAssetSaver<A> {
+impl<A: Asset + for<'de> Deserialize<'de> + Serialize> AssetSaver for PostcardAssetSaver<A> {
     type Asset = A;
     type Settings = ();
-    type OutputLoader = ();
+    type OutputLoader = PostcardAssetLoader<A>;
     type Error = PostcardAssetError;
 
     fn save<'a>(
