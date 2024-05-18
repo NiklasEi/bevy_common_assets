@@ -23,7 +23,7 @@
 //! #       .init_asset::<Level>()
 //!         .add_systems(Startup, load_level)
 //! #       .add_systems(Update, stop)
-//!         .run()
+//!         .run();
 //! }
 //!
 //! fn load_level(mut commands: Commands, asset_server: Res<AssetServer>) {
@@ -40,7 +40,7 @@
 //! struct LevelAsset(Handle<Level>);
 //!
 //! # fn stop(mut events: EventWriter<AppExit>) {
-//! #     events.send(AppExit);
+//! #     events.send(AppExit::Success);
 //! # }
 //! ```
 
