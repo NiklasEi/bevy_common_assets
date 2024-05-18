@@ -5,7 +5,6 @@ use bevy::{
         LoadContext,
     },
     prelude::*,
-    utils::{thiserror, BoxedFuture},
 };
 use postcard::{from_bytes, to_stdvec};
 use serde::{Deserialize, Serialize};
@@ -70,18 +69,16 @@ where
     type Settings = ();
     type Error = PostcardAssetError;
 
-    fn load<'a>(
+    async fn load<'a>(
         &'a self,
-        reader: &'a mut Reader,
+        reader: &'a mut Reader<'_>,
         _settings: &'a (),
-        _load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
-        Box::pin(async move {
-            let mut bytes = Vec::new();
-            reader.read_to_end(&mut bytes).await?;
-            let asset = from_bytes::<A>(&bytes)?;
-            Ok(asset)
-        })
+        _load_context: &'a mut LoadContext<'_>,
+    ) -> Result<Self::Asset, Self::Error> {
+        let mut bytes = Vec::new();
+        reader.read_to_end(&mut bytes).await?;
+        let asset = from_bytes::<A>(&bytes)?;
+        Ok(asset)
     }
 
     fn extensions(&self) -> &[&str] {
@@ -108,16 +105,14 @@ impl<A: Asset + for<'de> Deserialize<'de> + Serialize> AssetSaver for PostcardAs
     type OutputLoader = PostcardAssetLoader<A>;
     type Error = PostcardAssetError;
 
-    fn save<'a>(
+    async fn save<'a>(
         &'a self,
         writer: &'a mut bevy::asset::io::Writer,
         asset: bevy::asset::saver::SavedAsset<'a, Self::Asset>,
         _settings: &'a Self::Settings,
-    ) -> BoxedFuture<'a, Result<<Self::OutputLoader as AssetLoader>::Settings, Self::Error>> {
-        Box::pin(async move {
-            let bytes = to_stdvec(&asset.get())?;
-            writer.write_all(&bytes).await?;
-            Ok(())
-        })
+    ) -> Result<<Self::OutputLoader as AssetLoader>::Settings, Self::Error> {
+        let bytes = to_stdvec(&asset.get())?;
+        writer.write_all(&bytes).await?;
+        Ok(())
     }
 }

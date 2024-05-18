@@ -1,6 +1,6 @@
 use bevy::app::{App, Plugin};
 use bevy::asset::io::Reader;
-use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, BoxedFuture, LoadContext};
+use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, LoadContext};
 use quick_xml::de::from_str;
 use std::marker::PhantomData;
 use std::str::from_utf8;
@@ -68,18 +68,16 @@ where
     type Settings = ();
     type Error = XmlLoaderError;
 
-    fn load<'a>(
+    async fn load<'a>(
         &'a self,
-        reader: &'a mut Reader,
+        reader: &'a mut Reader<'_>,
         _settings: &'a (),
-        _load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
-        Box::pin(async move {
-            let mut bytes = Vec::new();
-            reader.read_to_end(&mut bytes).await?;
-            let asset = from_str::<A>(from_utf8(&bytes)?)?;
-            Ok(asset)
-        })
+        _load_context: &'a mut LoadContext<'_>,
+    ) -> Result<Self::Asset, Self::Error> {
+        let mut bytes = Vec::new();
+        reader.read_to_end(&mut bytes).await?;
+        let asset = from_str::<A>(from_utf8(&bytes)?)?;
+        Ok(asset)
     }
 
     fn extensions(&self) -> &[&str] {

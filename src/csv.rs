@@ -1,6 +1,6 @@
 use bevy::app::{App, Plugin};
 use bevy::asset::io::Reader;
-use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, BoxedFuture, Handle, LoadContext};
+use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, Handle, LoadContext};
 use bevy::prelude::TypePath;
 use std::marker::PhantomData;
 use thiserror::Error;
@@ -99,26 +99,23 @@ where
     type Settings = ();
     type Error = CsvLoaderError;
 
-    fn load<'a>(
+    async fn load<'a>(
         &'a self,
-        reader: &'a mut Reader,
+        reader: &'a mut Reader<'_>,
         _settings: &'a (),
-        load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
-        Box::pin(async move {
-            let mut bytes = Vec::new();
-            reader.read_to_end(&mut bytes).await?;
-            let mut reader = csv::ReaderBuilder::new()
-                .delimiter(self.delimiter)
-                .from_reader(bytes.as_slice());
-            let mut handles = vec![];
-            for (index, result) in reader.deserialize().enumerate() {
-                let asset: A = result?;
-                handles
-                    .push(load_context.add_loaded_labeled_asset(index.to_string(), asset.into()));
-            }
-            Ok(LoadedCsv { rows: handles })
-        })
+        load_context: &'a mut LoadContext<'_>,
+    ) -> Result<Self::Asset, Self::Error> {
+        let mut bytes = Vec::new();
+        reader.read_to_end(&mut bytes).await?;
+        let mut reader = csv::ReaderBuilder::new()
+            .delimiter(self.delimiter)
+            .from_reader(bytes.as_slice());
+        let mut handles = vec![];
+        for (index, result) in reader.deserialize().enumerate() {
+            let asset: A = result?;
+            handles.push(load_context.add_loaded_labeled_asset(index.to_string(), asset.into()));
+        }
+        Ok(LoadedCsv { rows: handles })
     }
 
     fn extensions(&self) -> &[&str] {
