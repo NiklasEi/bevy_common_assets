@@ -50,7 +50,7 @@ pub enum MsgPackLoaderError {
     /// An [IO Error](std::io::Error)
     #[error("Could not read the file: {0}")]
     Io(#[from] std::io::Error),
-    /// A [MessagePack Error](rmp_serde::decode::Error)
+    /// A [`MessagePack` Error](rmp_serde::decode::Error)
     #[error("Could not parse MessagePack: {0}")]
     MsgPackError(#[from] rmp_serde::decode::Error),
 }

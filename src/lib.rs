@@ -56,7 +56,7 @@ pub mod csv;
 #[cfg_attr(docsrs, doc(cfg(feature = "json")))]
 #[cfg(feature = "json")]
 pub mod json;
-/// Module containing a Bevy plugin to load assets from `MassagePack` files with custom file extensions.
+/// Module containing a Bevy plugin to load assets from `MessagePack` files with custom file extensions.
 #[cfg_attr(docsrs, doc(cfg(feature = "msgpack")))]
 #[cfg(feature = "msgpack")]
 pub mod msgpack;
