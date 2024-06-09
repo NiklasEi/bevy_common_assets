@@ -1,7 +1,9 @@
 use bevy::app::{App, Plugin};
 use bevy::asset::io::Reader;
-use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, BoxedFuture, LoadContext};
+use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, LoadContext};
+use bevy::utils::ConditionalSendFuture;
 use rmp_serde::from_slice;
+use std::future::Future;
 use std::marker::PhantomData;
 use thiserror::Error;
 
@@ -68,7 +70,9 @@ where
         reader: &'a mut Reader,
         _settings: &'a (),
         _load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
+    ) -> impl ConditionalSendFuture
+           + Future<Output = Result<<Self as AssetLoader>::Asset, <Self as AssetLoader>::Error>>
+    {
         Box::pin(async move {
             let mut bytes = Vec::new();
             reader.read_to_end(&mut bytes).await?;

@@ -12,7 +12,7 @@ fn main() {
         .init_state::<AppState>()
         .add_systems(Startup, setup)
         .add_systems(Update, spawn_level.run_if(in_state(AppState::Loading)))
-        .run()
+        .run();
 }
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {

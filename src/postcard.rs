@@ -5,11 +5,11 @@ use bevy::{
         LoadContext,
     },
     prelude::*,
-    utils::{thiserror, BoxedFuture},
+    utils::ConditionalSendFuture,
 };
 use postcard::{from_bytes, to_stdvec};
 use serde::{Deserialize, Serialize};
-use std::marker::PhantomData;
+use std::{future::Future, marker::PhantomData};
 use thiserror::Error;
 
 /// Plugin to load your asset type `A` from `Postcard` files.
@@ -75,7 +75,9 @@ where
         reader: &'a mut Reader,
         _settings: &'a (),
         _load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
+    ) -> impl ConditionalSendFuture
+           + Future<Output = Result<<Self as AssetLoader>::Asset, <Self as AssetLoader>::Error>>
+    {
         Box::pin(async move {
             let mut bytes = Vec::new();
             reader.read_to_end(&mut bytes).await?;
@@ -113,7 +115,13 @@ impl<A: Asset + for<'de> Deserialize<'de> + Serialize> AssetSaver for PostcardAs
         writer: &'a mut bevy::asset::io::Writer,
         asset: bevy::asset::saver::SavedAsset<'a, Self::Asset>,
         _settings: &'a Self::Settings,
-    ) -> BoxedFuture<'a, Result<<Self::OutputLoader as AssetLoader>::Settings, Self::Error>> {
+    ) -> impl ConditionalSendFuture
+           + Future<
+        Output = Result<
+            <<Self as AssetSaver>::OutputLoader as AssetLoader>::Settings,
+            <Self as AssetSaver>::Error,
+        >,
+    > {
         Box::pin(async move {
             let bytes = to_stdvec(&asset.get())?;
             writer.write_all(&bytes).await?;
