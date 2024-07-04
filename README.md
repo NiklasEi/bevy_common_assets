@@ -79,6 +79,7 @@ Compatibility of `bevy_common_assets` versions:
 
 | `bevy_common_assets` | `bevy` |
 |:---------------------|:-------|
+| `0.11`               | `0.14` |
 | `0.10`               | `0.13` |
 | `0.8` - `0.9`        | `0.12` |
 | `0.7`                | `0.11` |
