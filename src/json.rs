@@ -1,6 +1,6 @@
 use bevy::app::{App, Plugin};
 use bevy::asset::io::Reader;
-use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, BoxedFuture, LoadContext};
+use bevy::asset::{Asset, AssetApp, AssetLoader, AsyncReadExt, LoadContext};
 use serde_json::from_slice;
 use std::marker::PhantomData;
 use thiserror::Error;
@@ -63,18 +63,16 @@ where
     type Settings = ();
     type Error = JsonLoaderError;
 
-    fn load<'a>(
+    async fn load<'a>(
         &'a self,
-        reader: &'a mut Reader,
+        reader: &'a mut Reader<'_>,
         _settings: &'a (),
-        _load_context: &'a mut LoadContext,
-    ) -> BoxedFuture<'a, Result<Self::Asset, Self::Error>> {
-        Box::pin(async move {
-            let mut bytes = Vec::new();
-            reader.read_to_end(&mut bytes).await?;
-            let asset = from_slice::<A>(&bytes)?;
-            Ok(asset)
-        })
+        _load_context: &'a mut LoadContext<'_>,
+    ) -> Result<Self::Asset, Self::Error> {
+        let mut bytes = Vec::new();
+        reader.read_to_end(&mut bytes).await?;
+        let asset = from_slice::<A>(&bytes)?;
+        Ok(asset)
     }
 
     fn extensions(&self) -> &[&str] {
