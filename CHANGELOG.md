@@ -2,6 +2,8 @@
 
 ## v0.11.0 - 04.07.2024
 - Update to Bevy 0.14
+- Update `quick-xml` to `0.34`
+- Support for [postcard](https://github.com/jamesmunns/postcard)
 
 ## v0.10.0 - 17.02.2024
 - Update to Bevy 0.13
