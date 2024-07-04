@@ -9,16 +9,16 @@ Collection of [Bevy][bevy] plugins offering generic asset loaders for common fil
 
 Supported formats:
 
-| format     | feature    | example                                |
-|:-----------|:-----------|:---------------------------------------|
-| `json`     | `json`     | [`json.rs`](./examples/json.rs)        |
-| `msgpack`  | `msgpack`  | [`msgpack.rs`](./examples/msgpack.rs)  |
-| `postcard`| `postcard`  | [`postcard.rs`](./examples/postcard.rs)|
-| `ron`      | `ron`      | [`ron.rs`](./examples/ron.rs)          |
-| `toml`     | `toml`     | [`toml.rs`](./examples/toml.rs)        |
-| `xml`      | `xml`      | [`xml.rs`](./examples/xml.rs)          |
-| `yaml`     | `yaml`     | [`yaml.rs`](./examples/yaml.rs)        |
-| `csv`      | `csv`      | [`csv.rs`](./examples/csv.rs)          |
+| format     | feature    | example                                 |
+|:-----------|:-----------|:----------------------------------------|
+| `json`     | `json`     | [`json.rs`](./examples/json.rs)         |
+| `msgpack`  | `msgpack`  | [`msgpack.rs`](./examples/msgpack.rs)   |
+| `postcard` | `postcard` | [`postcard.rs`](./examples/postcard.rs) |
+| `ron`      | `ron`      | [`ron.rs`](./examples/ron.rs)           |
+| `toml`     | `toml`     | [`toml.rs`](./examples/toml.rs)         |
+| `xml`      | `xml`      | [`xml.rs`](./examples/xml.rs)           |
+| `yaml`     | `yaml`     | [`yaml.rs`](./examples/yaml.rs)         |
+| `csv`      | `csv`      | [`csv.rs`](./examples/csv.rs)           |
 
 ## Usage
 
