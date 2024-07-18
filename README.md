@@ -19,6 +19,7 @@ Supported formats:
 | `xml`      | `xml`      | [`xml.rs`](./examples/xml.rs)           |
 | `yaml`     | `yaml`     | [`yaml.rs`](./examples/yaml.rs)         |
 | `csv`      | `csv`      | [`csv.rs`](./examples/csv.rs)           |
+| `jsonl`    | `jsonl`    | [`jsonl.rs`](./examples/jsonl.rs)       |
 
 ## Usage
 
@@ -49,6 +50,7 @@ fn main() {
         .add_plugins((
             DefaultPlugins,
             JsonAssetPlugin::<Level>::new(&["level.json", "custom.json"]),
+            JsonLinesAssetPlugin::<Level>::new(&["level.jsonl", "custom.jsonl"]),
             RonAssetPlugin::<Level>::new(&["level.ron"]),
             MsgPackAssetPlugin::<Level>::new(&["level.msgpack"]),
             PostcardAssetPlugin::<Level>::new(&["level.postcard"]),
@@ -79,7 +81,7 @@ Compatibility of `bevy_common_assets` versions:
 
 | `bevy_common_assets` | `bevy` |
 |:---------------------|:-------|
-| `0.11`               | `0.14` |
+| `0.11` - `0.12`      | `0.14` |
 | `0.10`               | `0.13` |
 | `0.8` - `0.9`        | `0.12` |
 | `0.7`                | `0.11` |

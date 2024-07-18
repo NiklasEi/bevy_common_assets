@@ -1,6 +1,6 @@
 [package]
 name = "bevy_common_assets"
-version = "0.11.0"
+version = "0.12.0"
 authors = ["Niklas Eicker <git@nikl.me>"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
@@ -17,6 +17,7 @@ ron = ["dep:serde_ron"]
 toml = ["dep:serde_toml"]
 yaml = ["dep:serde_yaml"]
 json = ["dep:serde_json"]
+jsonl = ["dep:serde_json"]
 msgpack = ["dep:rmp-serde"]
 xml = ["dep:quick-xml"]
 csv = ["dep:csv"]
@@ -31,10 +32,10 @@ serde_json = { version = "1", optional = true }
 rmp-serde = { version = "1", optional = true }
 csv = { version = "1", optional = true }
 thiserror = "1.0"
-quick-xml = { version = "0.34", features = [ "serialize" ], optional = true }
+quick-xml = { version = "0.34", features = ["serialize"], optional = true }
 serde = { version = "1" }
 anyhow = { version = "1" }
-postcard = {version = "1.0", features = ["use-std"], optional = true}
+postcard = { version = "1.0", features = ["use-std"], optional = true }
 
 [dev-dependencies]
 bevy = { version = "0.14.0-rc.4" }
@@ -73,6 +74,11 @@ required-features = ["yaml"]
 name = "json"
 path = "examples/json.rs"
 required-features = ["json"]
+
+[[example]]
+name = "jsonl"
+path = "examples/jsonl.rs"
+required-features = ["jsonl"]
 
 [[example]]
 name = "xml"

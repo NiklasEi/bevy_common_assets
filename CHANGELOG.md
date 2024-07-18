@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.12.0 - 18.07.2024
+- Support for [Json Lines](https://jsonlines.org/)
+
 ## v0.11.0 - 04.07.2024
 - Update to Bevy 0.14
 - Update `quick-xml` to `0.34`
