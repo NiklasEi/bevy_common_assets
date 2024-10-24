@@ -1,5 +1,7 @@
 # Changelog
 
+- Update to Bevy 0.15
+
 ## v0.11.0 - 04.07.2024
 - Update to Bevy 0.14
 - Update `quick-xml` to `0.34`

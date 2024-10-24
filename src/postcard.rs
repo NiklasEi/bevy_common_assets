@@ -1,8 +1,7 @@
 use bevy::{
     app::{App, Plugin},
     asset::{
-        io::Reader, saver::AssetSaver, Asset, AssetApp, AssetLoader, AsyncReadExt, AsyncWriteExt,
-        LoadContext,
+        io::Reader, saver::AssetSaver, Asset, AssetApp, AssetLoader, AsyncWriteExt, LoadContext,
     },
     prelude::*,
 };
@@ -69,11 +68,11 @@ where
     type Settings = ();
     type Error = PostcardAssetError;
 
-    async fn load<'a>(
-        &'a self,
-        reader: &'a mut Reader<'_>,
-        _settings: &'a (),
-        _load_context: &'a mut LoadContext<'_>,
+    async fn load(
+        &self,
+        reader: &mut dyn Reader,
+        _settings: &(),
+        _load_context: &mut LoadContext<'_>,
     ) -> Result<Self::Asset, Self::Error> {
         let mut bytes = Vec::new();
         reader.read_to_end(&mut bytes).await?;
@@ -105,11 +104,11 @@ impl<A: Asset + for<'de> Deserialize<'de> + Serialize> AssetSaver for PostcardAs
     type OutputLoader = PostcardAssetLoader<A>;
     type Error = PostcardAssetError;
 
-    async fn save<'a>(
-        &'a self,
-        writer: &'a mut bevy::asset::io::Writer,
-        asset: bevy::asset::saver::SavedAsset<'a, Self::Asset>,
-        _settings: &'a Self::Settings,
+    async fn save(
+        &self,
+        writer: &mut bevy::asset::io::Writer,
+        asset: bevy::asset::saver::SavedAsset<'_, Self::Asset>,
+        _settings: &Self::Settings,
     ) -> Result<<Self::OutputLoader as AssetLoader>::Settings, Self::Error> {
         let bytes = to_stdvec(&asset.get())?;
         writer.write_all(&bytes).await?;

@@ -1,4 +1,3 @@
-use bevy::asset::LoadState;
 use bevy::prelude::*;
 use bevy::reflect::TypePath;
 use bevy_common_assets::json::JsonAssetPlugin;
@@ -13,7 +12,6 @@ fn main() {
             RonAssetPlugin::<Level>::new(&["level.ron"]),
             JsonAssetPlugin::<Level>::new(&["level.json"]),
         ))
-        .insert_resource(Msaa::Off)
         .init_state::<AppState>()
         .add_systems(Startup, setup)
         .add_systems(Update, check_loading.run_if(in_state(AppState::Loading)))
@@ -33,7 +31,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     let tree = ImageHandle(asset_server.load("tree.png"));
     commands.insert_resource(tree);
 
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn((Camera2d, Msaa::Off));
 }
 
 fn spawn_level(
@@ -45,11 +43,10 @@ fn spawn_level(
     for handle in levels.0.iter() {
         let level = level_assets.remove(handle).unwrap();
         for position in level.positions {
-            commands.spawn(SpriteBundle {
-                transform: Transform::from_translation(position.into()),
-                texture: tree.0.clone(),
-                ..default()
-            });
+            commands.spawn((
+                Sprite::from_image(tree.0.clone()),
+                Transform::from_translation(position.into()),
+            ));
         }
     }
 }
@@ -60,7 +57,11 @@ fn check_loading(
     mut state: ResMut<NextState<AppState>>,
 ) {
     for handle in &handles.0 {
-        if asset_server.get_load_state(handle) != Some(LoadState::Loaded) {
+        if asset_server
+            .get_load_state(handle)
+            .map(|state| !state.is_loaded())
+            .unwrap_or(true)
+        {
             return;
         }
     }
