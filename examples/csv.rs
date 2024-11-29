@@ -9,7 +9,6 @@ fn main() {
             DefaultPlugins,
             CsvAssetPlugin::<TreePosition>::new(&["level.csv"]),
         ))
-        .insert_resource(Msaa::Off)
         .init_state::<AppState>()
         .add_systems(Startup, setup)
         .add_systems(Update, spawn_level.run_if(in_state(AppState::Loading)))
@@ -22,7 +21,7 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     let tree = ImageHandle(asset_server.load("tree.png"));
     commands.insert_resource(tree);
 
-    commands.spawn(Camera2dBundle::default());
+    commands.spawn((Camera2d, Msaa::Off));
 }
 
 fn spawn_level(
@@ -33,17 +32,15 @@ fn spawn_level(
     positions: Res<Assets<TreePosition>>,
     mut state: ResMut<NextState<AppState>>,
 ) {
-    if asset_server.get_recursive_dependency_load_state(&level.0)
-        == Some(RecursiveDependencyLoadState::Loaded)
-    {
+    if matches!(
+        asset_server.get_recursive_dependency_load_state(&level.0),
+        Some(RecursiveDependencyLoadState::Loaded)
+    ) {
         for (_, position) in positions.iter() {
-            commands.spawn(SpriteBundle {
-                transform: Transform::from_translation(Vec3::new(
-                    position.x, position.y, position.z,
-                )),
-                texture: tree.0.clone(),
-                ..default()
-            });
+            commands.spawn((
+                Sprite::from_image(tree.0.clone()),
+                Transform::from_translation(Vec3::new(position.x, position.y, position.z)),
+            ));
         }
 
         state.set(AppState::Level);
