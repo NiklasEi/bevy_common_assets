@@ -88,3 +88,8 @@ required-features = ["csv"]
 name = "multiple_formats"
 path = "examples/multiple_formats.rs"
 required-features = ["ron", "json"]
+
+[[example]]
+name = "asset_savers"
+path = "examples/asset_savers/asset_savers.rs"
+required-features = ["ron", "json", "postcard", "bevy/file_watcher", "bevy/asset_processor"]

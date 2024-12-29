@@ -1,5 +1,7 @@
 # Changelog
 
+- new example `asset_savers`
+
 ## v0.12.0 - 29.11.2024
 - Update to Bevy 0.15
 
