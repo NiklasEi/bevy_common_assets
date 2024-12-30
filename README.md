@@ -71,6 +71,11 @@ ron files ending on `.level.ron` and so on...
 
 See the [examples](./examples) for working Bevy apps using the different formats.
 
+## Asset savers / using the loaders in .meta files
+
+The more involved [example `asset_savers`](./examples/asset_savers) demonstrates how you can convert a json
+asset into a processed postcard asset using the `JsonAssetLoader` and `PostcardAssetSaver`.
+
 ## Compatible Bevy versions
 
 The main branch is compatible with the latest Bevy release.

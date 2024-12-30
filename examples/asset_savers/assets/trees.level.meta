@@ -1,0 +1,11 @@
+(
+    meta_format_version: "1.0",
+    asset: Process(
+        processor: "bevy_asset::processor::process::LoadTransformAndSave<bevy_common_assets::json::JsonAssetLoader<asset_savers::Level>, bevy_asset::transformer::IdentityAssetTransformer<asset_savers::Level>, bevy_common_assets::postcard::PostcardAssetSaver<asset_savers::Level>>",
+        settings: (
+            loader_settings: (),
+            transformer_settings: (),
+            saver_settings: (),
+        ),
+    ),
+)
