@@ -6,7 +6,7 @@ fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
-            JsonAssetPlugin::<Level>::new(&["level.json"]),
+            JsonAssetPlugin::<Level>::new(&["TerrainLine.json"]),
         ))
         .init_state::<AppState>()
         .add_systems(Startup, setup)
@@ -15,7 +15,7 @@ fn main() {
 }
 
 fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let level = LevelHandle(asset_server.load("trees.level.json"));
+    let level = LevelHandle(asset_server.load("trees.TerrainLine.json"));
     commands.insert_resource(level);
     let tree = ImageHandle(asset_server.load("tree.png"));
     commands.insert_resource(tree);
