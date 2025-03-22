@@ -5,7 +5,7 @@
 [![license](https://img.shields.io/crates/l/bevy_common_assets)](https://github.com/NiklasEi/bevy_common_assets#license)
 [![crates.io](https://img.shields.io/crates/d/bevy_common_assets.svg)](https://crates.io/crates/bevy_common_assets)
 
-Collection of [Bevy][bevy] plugins offering generic asset loaders for common file formats.
+Collection of [Bevy][bevy] plugins offering generic asset loaders and writers for common file formats.
 
 Supported formats:
 
@@ -84,6 +84,7 @@ Compatibility of `bevy_common_assets` versions:
 
 | `bevy_common_assets` | `bevy` |
 |:---------------------|:-------|
+| `0.13`               | `0.16` |
 | `0.12`               | `0.15` |
 | `0.11`               | `0.14` |
 | `0.10`               | `0.13` |
