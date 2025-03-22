@@ -11,7 +11,6 @@ use serde::{Deserialize, Serialize};
 ///
 /// Take a look at `examples/asset_savers/assets/trees.level.meta` to see the configuration
 /// that tells Bevy which processor to use to convert the json asset into the postcard format.
-
 fn main() {
     App::new()
         .add_plugins((
@@ -35,6 +34,7 @@ fn main() {
         .init_state::<AppState>()
         .add_systems(Startup, setup)
         .add_systems(Update, spawn_level.run_if(in_state(AppState::Loading)))
+        .add_systems(Update, update_level.run_if(in_state(AppState::Level)))
         .run();
 }
 
@@ -50,17 +50,51 @@ fn spawn_level(
     mut commands: Commands,
     level: Res<LevelHandle>,
     tree: Res<ImageHandle>,
-    mut levels: ResMut<Assets<Level>>,
+    levels: Res<Assets<Level>>,
     mut state: ResMut<NextState<AppState>>,
 ) {
-    if let Some(level) = levels.remove(level.0.id()) {
-        for position in level.positions {
+    if let Some(level) = levels.get(level.0.id()) {
+        for position in level.positions.iter() {
             commands.spawn((
                 Sprite::from_image(tree.0.clone()),
-                Transform::from_translation(position.into()),
+                Transform::from_translation((*position).into()),
             ));
         }
         state.set(AppState::Level);
+    }
+}
+
+// for development is is helpful to react to changes in asset files
+// The processed asset will automatically be updated when the source asset changes,
+// this system will then react and respawn the level
+// Try it out and edit a tree position in `assets/trees.level
+fn update_level(
+    mut commands: Commands,
+    mut asset_event: EventReader<AssetEvent<Level>>,
+    level: Res<LevelHandle>,
+    levels: Res<Assets<Level>>,
+    trees: Query<Entity, With<Sprite>>,
+    tree: Res<ImageHandle>,
+) {
+    for event in asset_event.read() {
+        if let AssetEvent::Modified { id } = event {
+            if id == &level.0.id() {
+                trees
+                    .iter()
+                    .for_each(|tree| commands.entity(tree).despawn());
+                for position in levels
+                    .get(level.0.id())
+                    .expect("Level missing after asset update event")
+                    .positions
+                    .iter()
+                {
+                    commands.spawn((
+                        Sprite::from_image(tree.0.clone()),
+                        Transform::from_translation((*position).into()),
+                    ));
+                }
+            }
+        }
     }
 }
 

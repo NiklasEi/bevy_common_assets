@@ -2,7 +2,7 @@
 name = "bevy_common_assets"
 version = "0.12.0"
 authors = ["Niklas Eicker <git@nikl.me>"]
-edition = "2021"
+edition = "2024"
 license = "MIT OR Apache-2.0"
 description = "Bevy plugin adding support for loading your own asset types from common file formats such as json and yaml"
 repository = "https://github.com/NiklasEi/bevy_common_assets"
@@ -21,9 +21,10 @@ msgpack = ["dep:rmp-serde"]
 xml = ["dep:quick-xml"]
 csv = ["dep:csv"]
 postcard = ["dep:postcard"]
+default = ["csv"]
 
 [dependencies]
-bevy = { version = "0.15.0", default-features = false, features = ["bevy_asset"] }
+bevy = { version = "0.16.0-rc.1", default-features = false, features = ["bevy_asset"] }
 serde_toml = { version = "0.8", package = "toml", optional = true }
 serde_ron = { version = "0.8", package = "ron", optional = true }
 serde_yaml = { version = "0.9", optional = true }
@@ -37,7 +38,7 @@ anyhow = { version = "1" }
 postcard = {version = "1.0", features = ["use-std"], optional = true}
 
 [dev-dependencies]
-bevy = { version = "0.15.0" }
+bevy = { version = "0.16.0-rc.1", features = ["file_watcher", "asset_processor"]}
 serde = { version = "1" }
 
 [package.metadata.docs.rs]
@@ -92,4 +93,4 @@ required-features = ["ron", "json"]
 [[example]]
 name = "asset_savers"
 path = "examples/asset_savers/asset_savers.rs"
-required-features = ["ron", "json", "postcard", "bevy/file_watcher", "bevy/asset_processor"]
+required-features = ["ron", "json", "postcard"]
