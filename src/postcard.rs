@@ -1,7 +1,7 @@
 use bevy::{
     app::{App, Plugin},
     asset::{
-        io::Reader, saver::AssetSaver, Asset, AssetApp, AssetLoader, AsyncWriteExt, LoadContext,
+        Asset, AssetApp, AssetLoader, AsyncWriteExt, LoadContext, io::Reader, saver::AssetSaver,
     },
     prelude::*,
 };

@@ -1,4 +1,3 @@
-use bevy::asset::RecursiveDependencyLoadState;
 use bevy::prelude::*;
 use bevy::reflect::TypePath;
 use bevy_common_assets::csv::{CsvAssetPlugin, LoadedCsv};
@@ -27,16 +26,12 @@ fn setup(mut commands: Commands, asset_server: Res<AssetServer>) {
 fn spawn_level(
     mut commands: Commands,
     level: Res<LevelHandle>,
-    asset_server: Res<AssetServer>,
     tree: Res<ImageHandle>,
-    positions: Res<Assets<TreePosition>>,
+    positions: Res<Assets<LoadedCsv<TreePosition>>>,
     mut state: ResMut<NextState<AppState>>,
 ) {
-    if matches!(
-        asset_server.get_recursive_dependency_load_state(&level.0),
-        Some(RecursiveDependencyLoadState::Loaded)
-    ) {
-        for (_, position) in positions.iter() {
+    if let Some(level) = positions.get(&level.0) {
+        for position in level.rows.iter() {
             commands.spawn((
                 Sprite::from_image(tree.0.clone()),
                 Transform::from_translation(Vec3::new(position.x, position.y, position.z)),
