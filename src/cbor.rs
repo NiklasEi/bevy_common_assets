@@ -81,7 +81,7 @@ where
     ) -> Result<Self::Asset, Self::Error> {
         let mut bytes = Vec::new();
         reader.read_to_end(&mut bytes).await?;
-        let asset: A = from_reader( &bytes[..] )?;
+        let asset: A = from_reader(&bytes[..])?;
         Ok(asset)
     }
 
@@ -116,7 +116,7 @@ impl<A: Asset + for<'de> Deserialize<'de> + Serialize> AssetSaver for CborAssetS
         _settings: &Self::Settings,
     ) -> Result<<Self::OutputLoader as AssetLoader>::Settings, Self::Error> {
         let mut bytes = Vec::new();
-        ciborium::into_writer(&asset.get(), &mut bytes )?;
+        ciborium::into_writer(&asset.get(), &mut bytes)?;
         writer.write_all(&bytes).await?;
         Ok(())
     }
