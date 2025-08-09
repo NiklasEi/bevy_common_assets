@@ -88,6 +88,11 @@ path = "examples/csv.rs"
 required-features = ["csv"]
 
 [[example]]
+name = "cbor"
+path = "examples/cbor.rs"
+required-features = ["cbor"]
+
+[[example]]
 name = "multiple_formats"
 path = "examples/multiple_formats.rs"
 required-features = ["ron", "json"]
