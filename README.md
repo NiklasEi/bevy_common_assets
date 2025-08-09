@@ -19,6 +19,7 @@ Supported formats:
 | `xml`      | `xml`      | [`xml.rs`](./examples/xml.rs)           |
 | `yaml`     | `yaml`     | [`yaml.rs`](./examples/yaml.rs)         |
 | `csv`      | `csv`      | [`csv.rs`](./examples/csv.rs)           |
+| `cbor`     | `cbor`     | [`cbor.rs`](./examples/cbor.rs)         |
 
 ## Usage
 
@@ -36,6 +37,7 @@ With the types ready, you can start adding asset plugins. Every plugin gets the 
 as a generic parameter. You can also configure custom file endings for each plugin:
 ```rust no_run
 use bevy::prelude::*;
+use bevy_common_assets::cbor::CborAssetPlugin;
 use bevy_common_assets::json::JsonAssetPlugin;
 use bevy_common_assets::msgpack::MsgPackAssetPlugin;
 use bevy_common_assets::postcard::PostcardAssetPlugin;
@@ -48,6 +50,7 @@ fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
+            CborAssetPlugin::<Level>::new(&["level.cbor", "custom.cbor"]),
             JsonAssetPlugin::<Level>::new(&["level.json", "custom.json"]),
             RonAssetPlugin::<Level>::new(&["level.ron"]),
             MsgPackAssetPlugin::<Level>::new(&["level.msgpack"]),
