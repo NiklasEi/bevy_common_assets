@@ -21,6 +21,7 @@ msgpack = ["dep:rmp-serde"]
 xml = ["dep:quick-xml"]
 csv = ["dep:csv"]
 postcard = ["dep:postcard"]
+cbor = ["dep:ciborium"]
 default = ["csv"]
 
 [dependencies]
@@ -36,6 +37,7 @@ quick-xml = { version = "0.36.2", features = [ "serialize" ], optional = true }
 serde = { version = "1" }
 anyhow = { version = "1" }
 postcard = {version = "1.0", features = ["use-std"], optional = true}
+ciborium = { version = "0.2.2", optional = true }
 
 [dev-dependencies]
 bevy = { version = "0.16.0", features = ["file_watcher", "asset_processor"]}
@@ -84,6 +86,11 @@ required-features = ["xml"]
 name = "csv"
 path = "examples/csv.rs"
 required-features = ["csv"]
+
+[[example]]
+name = "cbor"
+path = "examples/cbor.rs"
+required-features = ["cbor"]
 
 [[example]]
 name = "multiple_formats"

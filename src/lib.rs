@@ -48,6 +48,10 @@
 #![warn(unused_imports, missing_docs)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
+/// Module containing a Bevy plugin to load assets from `cbor` files with custom file extensions.
+#[cfg_attr(docsrs, doc(cfg(feature = "cbor")))]
+#[cfg(feature = "cbor")]
+pub mod cbor;
 /// Module containing a Bevy plugin to load assets from `csv` files with custom file extensions.
 #[cfg_attr(docsrs, doc(cfg(feature = "csv")))]
 #[cfg(feature = "csv")]
@@ -90,6 +94,7 @@ pub mod yaml;
     feature = "yaml",
     feature = "csv",
     feature = "postcard",
+    feature = "cbor",
 ))]
 #[doc = include_str!("../README.md")]
 #[cfg(doctest)]
