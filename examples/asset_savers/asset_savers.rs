@@ -78,7 +78,8 @@ fn update_level(
 ) {
     for event in asset_event.read() {
         if let AssetEvent::Modified { id } = event
-            && id == &level.0.id() {
+            && id == &level.0.id()
+        {
             trees
                 .iter()
                 .for_each(|tree| commands.entity(tree).despawn());
