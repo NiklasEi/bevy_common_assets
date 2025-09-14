@@ -50,14 +50,14 @@ fn main() {
     App::new()
         .add_plugins((
             DefaultPlugins,
-            CborAssetPlugin::<Level>::new(&["level.cbor", "custom.cbor"]),
             JsonAssetPlugin::<Level>::new(&["level.json", "custom.json"]),
             RonAssetPlugin::<Level>::new(&["level.ron"]),
             MsgPackAssetPlugin::<Level>::new(&["level.msgpack"]),
             PostcardAssetPlugin::<Level>::new(&["level.postcard"]),
             TomlAssetPlugin::<Level>::new(&["level.toml"]),
             XmlAssetPlugin::<Level>::new(&["level.xml"]),
-            YamlAssetPlugin::<Level>::new(&["level.yaml"])
+            YamlAssetPlugin::<Level>::new(&["level.yaml"]),
+            CborAssetPlugin::<Level>::new(&["level.cbor"])
         ))
         // ...
         .run();
