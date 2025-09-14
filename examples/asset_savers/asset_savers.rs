@@ -70,29 +70,29 @@ fn spawn_level(
 // Try it out and edit a tree position in `assets/trees.level
 fn update_level(
     mut commands: Commands,
-    mut asset_event: EventReader<AssetEvent<Level>>,
+    mut asset_event: MessageReader<AssetEvent<Level>>,
     level: Res<LevelHandle>,
     levels: Res<Assets<Level>>,
     trees: Query<Entity, With<Sprite>>,
     tree: Res<ImageHandle>,
 ) {
     for event in asset_event.read() {
-        if let AssetEvent::Modified { id } = event {
-            if id == &level.0.id() {
-                trees
-                    .iter()
-                    .for_each(|tree| commands.entity(tree).despawn());
-                for position in levels
-                    .get(level.0.id())
-                    .expect("Level missing after asset update event")
-                    .positions
-                    .iter()
-                {
-                    commands.spawn((
-                        Sprite::from_image(tree.0.clone()),
-                        Transform::from_translation((*position).into()),
-                    ));
-                }
+        if let AssetEvent::Modified { id } = event
+            && id == &level.0.id()
+        {
+            trees
+                .iter()
+                .for_each(|tree| commands.entity(tree).despawn());
+            for position in levels
+                .get(level.0.id())
+                .expect("Level missing after asset update event")
+                .positions
+                .iter()
+            {
+                commands.spawn((
+                    Sprite::from_image(tree.0.clone()),
+                    Transform::from_translation((*position).into()),
+                ));
             }
         }
     }
