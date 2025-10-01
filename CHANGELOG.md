@@ -1,5 +1,6 @@
 # Changelog
 
+## v0.14.0 - 01.10.2025
 - Support for CBOR files (@Kamduis in [#49](https://github.com/NiklasEi/bevy_common_assets/pull/49))
 - Update to Bevy 0.17
 
