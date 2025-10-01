@@ -39,8 +39,8 @@
 //! #[derive(Resource)]
 //! struct LevelAsset(Handle<Level>);
 //!
-//! # fn stop(mut events: EventWriter<AppExit>) {
-//! #     events.send(AppExit::Success);
+//! # fn stop(mut events: MessageWriter<AppExit>) {
+//! #     events.write(AppExit::Success);
 //! # }
 //! ```
 

@@ -70,7 +70,7 @@ fn spawn_level(
 // Try it out and edit a tree position in `assets/trees.level
 fn update_level(
     mut commands: Commands,
-    mut asset_event: EventReader<AssetEvent<Level>>,
+    mut asset_event: MessageReader<AssetEvent<Level>>,
     level: Res<LevelHandle>,
     levels: Res<Assets<Level>>,
     trees: Query<Entity, With<Sprite>>,
