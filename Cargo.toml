@@ -1,6 +1,6 @@
 [package]
 name = "bevy_common_assets"
-version = "0.13.0"
+version = "0.14.0"
 authors = ["Niklas Eicker <git@nikl.me>"]
 edition = "2024"
 license = "MIT OR Apache-2.0"
@@ -25,7 +25,7 @@ cbor = ["dep:ciborium"]
 default = ["csv"]
 
 [dependencies]
-bevy = { version = "0.16.0", default-features = false, features = ["bevy_asset"] }
+bevy = { version = "0.17.0", default-features = false, features = ["bevy_asset"] }
 serde_toml = { version = "0.8", package = "toml", optional = true }
 serde_ron = { version = "0.8", package = "ron", optional = true }
 serde_yaml = { version = "0.9", optional = true }
@@ -40,7 +40,7 @@ postcard = {version = "1.0", features = ["use-std"], optional = true}
 ciborium = { version = "0.2.2", optional = true }
 
 [dev-dependencies]
-bevy = { version = "0.16.0", features = ["file_watcher", "asset_processor"]}
+bevy = { version = "0.17.0", features = ["file_watcher", "asset_processor"]}
 serde = { version = "1" }
 
 [package.metadata.docs.rs]
