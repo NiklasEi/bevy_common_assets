@@ -25,7 +25,10 @@ cbor = ["dep:ciborium"]
 default = ["csv"]
 
 [dependencies]
-bevy = { version = "0.16.0", default-features = false, features = ["bevy_asset"] }
+bevy_ecs = {version = "0.16"}
+bevy_app = {version = "0.16"}
+bevy_reflect = {version = "0.16"}
+bevy_asset = {version = "0.16"}
 serde_toml = { version = "0.8", package = "toml", optional = true }
 serde_ron = { version = "0.8", package = "ron", optional = true }
 serde_yaml = { version = "0.9", optional = true }
