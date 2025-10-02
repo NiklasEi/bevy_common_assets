@@ -1,6 +1,6 @@
-use bevy::app::{App, Plugin};
-use bevy::asset::io::Reader;
-use bevy::asset::{Asset, AssetApp, AssetLoader, LoadContext};
+use bevy_app::{App, Plugin};
+use bevy_asset::io::Reader;
+use bevy_asset::{Asset, AssetApp, AssetLoader, LoadContext};
 use std::marker::PhantomData;
 use std::str::from_utf8;
 use thiserror::Error;

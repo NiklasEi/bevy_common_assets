@@ -11,6 +11,7 @@ documentation = "https://docs.rs/bevy_common_assets"
 keywords = ["bevy", "gamedev", "asset", "assets"]
 categories = ["game-development"]
 readme = "./README.md"
+exclude = ["assets"]
 
 [features]
 ron = ["dep:serde_ron"]
@@ -25,9 +26,10 @@ cbor = ["dep:ciborium"]
 default = ["csv"]
 
 [dependencies]
-bevy = { version = "0.17.0", default-features = false, features = [
-    "bevy_asset",
-] }
+bevy_ecs = {version = "0.17"}
+bevy_app = {version = "0.17"}
+bevy_reflect = {version = "0.17"}
+bevy_asset = {version = "0.17"}
 serde_toml = { version = "0.9", package = "toml", optional = true }
 serde_ron = { version = "0.11", package = "ron", optional = true }
 serde_yaml = { version = "0.9", optional = true }
