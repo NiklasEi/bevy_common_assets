@@ -11,6 +11,7 @@ documentation = "https://docs.rs/bevy_common_assets"
 keywords = ["bevy", "gamedev", "asset", "assets"]
 categories = ["game-development"]
 readme = "./README.md"
+exclude = ["assets"]
 
 [features]
 ron = ["dep:serde_ron"]
