@@ -1,9 +1,6 @@
-use bevy::{
-    app::{App, Plugin},
-    asset::{
-        Asset, AssetApp, AssetLoader, AsyncWriteExt, LoadContext, io::Reader, saver::AssetSaver,
-    },
-    prelude::*,
+use bevy_app::{App, Plugin};
+use bevy_asset::{
+    Asset, AssetApp, AssetLoader, AsyncWriteExt, LoadContext, io::Reader, saver::AssetSaver,
 };
 use postcard::{from_bytes, to_stdvec};
 use serde::{Deserialize, Serialize};
@@ -106,8 +103,8 @@ impl<A: Asset + for<'de> Deserialize<'de> + Serialize> AssetSaver for PostcardAs
 
     async fn save(
         &self,
-        writer: &mut bevy::asset::io::Writer,
-        asset: bevy::asset::saver::SavedAsset<'_, Self::Asset>,
+        writer: &mut bevy_asset::io::Writer,
+        asset: bevy_asset::saver::SavedAsset<'_, Self::Asset>,
         _settings: &Self::Settings,
     ) -> Result<<Self::OutputLoader as AssetLoader>::Settings, Self::Error> {
         let bytes = to_stdvec(&asset.get())?;
