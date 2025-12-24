@@ -2,6 +2,7 @@ use bevy_app::{App, Plugin};
 use bevy_asset::{
     Asset, AssetApp, AssetLoader, AsyncWriteExt, LoadContext, io::Reader, saver::AssetSaver,
 };
+use bevy_reflect::TypePath;
 use postcard::{from_bytes, to_stdvec};
 use serde::{Deserialize, Serialize};
 use std::marker::PhantomData;
@@ -40,6 +41,7 @@ where
 }
 
 /// Loads your asset type `A` from `Postcard` files
+#[derive(TypePath)]
 pub struct PostcardAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
@@ -83,6 +85,7 @@ where
 }
 
 /// Saves your asset type `A` to `Postcard` files
+#[derive(TypePath)]
 pub struct PostcardAssetSaver<A> {
     _marker: PhantomData<A>,
 }

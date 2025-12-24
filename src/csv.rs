@@ -62,6 +62,7 @@ where
 }
 
 /// Loads your asset type `A` from csv files
+#[derive(TypePath)]
 pub struct CsvAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,

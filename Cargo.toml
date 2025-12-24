@@ -1,6 +1,6 @@
 [package]
 name = "bevy_common_assets"
-version = "0.14.0"
+version = "0.15.0-rc.1"
 authors = ["Niklas Eicker <git@nikl.me>"]
 edition = "2024"
 license = "MIT OR Apache-2.0"
@@ -19,15 +19,14 @@ yaml = ["dep:serde_yaml"]
 json = ["dep:serde_json"]
 msgpack = ["dep:rmp-serde"]
 xml = ["dep:quick-xml"]
-csv = ["dep:csv", "dep:bevy_reflect"]
+csv = ["dep:csv"]
 postcard = ["dep:postcard"]
 cbor = ["dep:ciborium"]
-default = ["csv"]
 
 [dependencies]
-bevy_app = { version = "0.17.0", default-features = false }
-bevy_asset = { version = "0.17.0", default-features = false }
-bevy_reflect = { version = "0.17.0", default-features = false, optional = true }
+bevy_app = { version = "0.18.0-rc.1", default-features = false }
+bevy_asset = { version = "0.18.0-rc.1", default-features = false }
+bevy_reflect = { version = "0.18.0-rc.1", default-features = false }
 serde_toml = { version = "0.9", package = "toml", optional = true }
 serde_ron = { version = "0.11", package = "ron", optional = true }
 serde_yaml = { version = "0.9", optional = true }
@@ -42,7 +41,7 @@ postcard = { version = "1.0", features = ["use-std"], optional = true }
 ciborium = { version = "0.2.2", optional = true }
 
 [dev-dependencies]
-bevy = { version = "0.17.0", features = [
+bevy = { version = "0.18.0-rc.1", features = [
     "file_watcher",
     "asset_processor",
 ] }

@@ -1,6 +1,7 @@
 use bevy_app::{App, Plugin};
 use bevy_asset::io::Reader;
 use bevy_asset::{Asset, AssetApp, AssetLoader, LoadContext};
+use bevy_reflect::TypePath;
 use serde_yaml::from_slice;
 use std::marker::PhantomData;
 use thiserror::Error;
@@ -38,6 +39,7 @@ where
 }
 
 /// Loads your asset type `A` from yaml files
+#[derive(TypePath)]
 pub struct YamlAssetLoader<A> {
     extensions: Vec<&'static str>,
     _marker: PhantomData<A>,
