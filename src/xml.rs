@@ -118,8 +118,9 @@ impl<A: Asset + for<'de> Deserialize<'de> + Serialize> AssetSaver for XmlAssetSa
     async fn save(
         &self,
         writer: &mut bevy_asset::io::Writer,
-        asset: bevy_asset::saver::SavedAsset<'_, Self::Asset>,
+        asset: bevy_asset::saver::SavedAsset<'_,'_, Self::Asset>,
         _settings: &Self::Settings,
+        _asset_path: bevy_asset::AssetPath<'_>,
     ) -> Result<<Self::OutputLoader as AssetLoader>::Settings, Self::Error> {
         let xml = quick_xml::se::to_string(asset.get())
             .map_err(|e| XmlAssetError::XmlSerError(e.to_string()))?;

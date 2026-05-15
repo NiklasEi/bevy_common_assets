@@ -116,8 +116,9 @@ impl<A: Asset + for<'de> Deserialize<'de> + Serialize> AssetSaver for TomlAssetS
     async fn save(
         &self,
         writer: &mut bevy_asset::io::Writer,
-        asset: bevy_asset::saver::SavedAsset<'_, Self::Asset>,
+        asset: bevy_asset::saver::SavedAsset<'_,'_, Self::Asset>,
         _settings: &Self::Settings,
+        _asset_path: bevy_asset::AssetPath<'_>,
     ) -> Result<<Self::OutputLoader as AssetLoader>::Settings, Self::Error> {
         let toml = serde_toml::to_string(asset.get())?;
         writer.write_all(toml.as_bytes()).await?;
