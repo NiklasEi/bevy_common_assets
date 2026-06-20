@@ -2,6 +2,7 @@
 
 ## v0.17.0 - 20.06.2026
 - Update to Bevy 0.19
+- Bump serde_toml to v1
 - RON deserialization options customization [#61](https://github.com/NiklasEi/bevy_common_assets/pull/61)
 
 ## v0.16.0 - 22.03.2026
