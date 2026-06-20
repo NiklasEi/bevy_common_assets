@@ -28,9 +28,15 @@ fn spawn_level(
     mut state: ResMut<NextState<AppState>>,
 ) {
     if let Some(level) = levels.remove(level.0.id()) {
+        // Default to fully opaque if alpha is None.
+        let color = Color::default().with_alpha(level.alpha.unwrap_or(1.0));
         for position in level.positions {
             commands.spawn((
-                Sprite::from_image(tree.0.clone()),
+                Sprite {
+                    image: tree.0.clone(),
+                    color,
+                    ..default()
+                },
                 Transform::from_translation(position.into()),
             ));
         }
@@ -42,6 +48,7 @@ fn spawn_level(
 #[derive(serde::Deserialize, Asset, TypePath)]
 struct Level {
     positions: Vec<[f32; 3]>,
+    alpha: Option<f32>,
 }
 
 #[derive(Debug, Clone, Copy, Default, Eq, PartialEq, Hash, States)]

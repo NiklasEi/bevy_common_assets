@@ -3,13 +3,14 @@ use bevy_asset::io::Reader;
 use bevy_asset::{Asset, AssetApp, AssetLoader, AsyncWriteExt, LoadContext, saver::AssetSaver};
 use bevy_reflect::TypePath;
 use serde::{Deserialize, Serialize};
-use serde_ron::de::from_bytes;
+use serde_ron::{Options, extensions::Extensions};
 use std::marker::PhantomData;
 use thiserror::Error;
 
 /// Plugin to load your asset type `A` from ron files.
 pub struct RonAssetPlugin<A> {
     extensions: Vec<&'static str>,
+    options: Options,
     _marker: PhantomData<A>,
 }
 
@@ -21,6 +22,7 @@ where
         app.init_asset::<A>()
             .register_asset_loader(RonAssetLoader::<A> {
                 extensions: self.extensions.clone(),
+                options: self.options.clone(),
                 _marker: PhantomData,
             });
     }
@@ -31,11 +33,36 @@ where
     for<'de> A: serde::Deserialize<'de> + Asset,
 {
     /// Create a new plugin that will load assets from files with the given extensions.
+    ///
+    /// Enables [`Extensions::IMPLICIT_SOME`] by default.
     pub fn new(extensions: &[&'static str]) -> Self {
         Self {
             extensions: extensions.to_owned(),
+            options: Options::default().with_default_extension(Extensions::IMPLICIT_SOME),
             _marker: PhantomData,
         }
+    }
+
+    /// Customize RON deserialization options.
+    ///
+    /// ```no_run
+    /// # use bevy::prelude::*;
+    /// # use bevy_common_assets::ron::RonAssetPlugin;
+    /// use serde_ron::{extensions::Extensions, Options};
+    ///
+    /// App::new()
+    ///     .add_plugins(RonAssetPlugin::<Level>::new(&["level.ron"])
+    ///         .with_options(Options::default().with_default_extension(
+    ///             Extensions::UNWRAP_NEWTYPES | Extensions::IMPLICIT_SOME,
+    ///         )));
+    /// # #[derive(serde::Deserialize, Asset, TypePath)]
+    /// # struct Level {
+    /// #     value: Option<f32>,
+    /// # }
+    /// ```
+    pub fn with_options(mut self, options: Options) -> Self {
+        self.options = options;
+        self
     }
 }
 
@@ -43,6 +70,7 @@ where
 #[derive(TypePath)]
 pub struct RonAssetLoader<A> {
     extensions: Vec<&'static str>,
+    options: Options,
     _marker: PhantomData<A>,
 }
 
@@ -81,7 +109,7 @@ where
     ) -> Result<Self::Asset, Self::Error> {
         let mut bytes = Vec::new();
         reader.read_to_end(&mut bytes).await?;
-        let asset = from_bytes::<A>(&bytes)?;
+        let asset = self.options.from_bytes::<A>(&bytes)?;
         Ok(asset)
     }
 
