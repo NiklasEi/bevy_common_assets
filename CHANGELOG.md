@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.17.0 - 20.06.2026
+- Update to Bevy 0.19
+
 ## v0.16.0 - 22.03.2026
 - Add asset savers to all supported formats
 
