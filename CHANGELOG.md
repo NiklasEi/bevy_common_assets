@@ -1,5 +1,8 @@
 # Changelog
 
+## v0.18.0 - 02.09.2026
+- Bump `ron` to 0.12
+
 ## v0.17.0 - 20.06.2026
 - Update to Bevy 0.19
 - Bump serde_toml to v1
