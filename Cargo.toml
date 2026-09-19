@@ -46,6 +46,9 @@ bevy = { version = "0.20.0-rc.1", features = [
     "asset_processor",
 ] }
 serde = { version = "1" }
+# encase 0.12.2 moved its re-exported `syn` to v3 in a patch release 
+# https://github.com/teoxoy/encase/issues/117
+encase = "=0.12.1"
 
 [package.metadata.docs.rs]
 all-features = true
