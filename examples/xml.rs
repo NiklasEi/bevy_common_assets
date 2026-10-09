@@ -1,4 +1,3 @@
-use bevy::math::f32::Vec3;
 use bevy::prelude::*;
 use bevy::reflect::TypePath;
 use bevy_common_assets::xml::XmlAssetPlugin;
