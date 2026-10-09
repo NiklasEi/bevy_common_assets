@@ -1,5 +1,6 @@
 # Changelog
 
+## v0.18.0 - 09.10.2026
 - Update to Bevy 0.20
 - Bump `ron` to v0.12
 
